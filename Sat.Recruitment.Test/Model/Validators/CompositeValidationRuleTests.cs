@@ -7,7 +7,6 @@ using NSubstitute;
 
 using Sat.Recruitment.Api.Model;
 using Sat.Recruitment.Api.Model.Validators;
-using Sat.Recruitment.Api.Validators;
 
 using Xunit;
 

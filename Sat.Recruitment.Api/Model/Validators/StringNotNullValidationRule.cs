@@ -8,7 +8,7 @@ namespace Sat.Recruitment.Api.Model.Validators
     /// </summary>
     internal sealed class StringNotNullValidationRule : IValidationRule
     {
-        private readonly Func<User, string> getValue;
+        private readonly Func<User, string?> getValue;
 
         private readonly string errorMessage;
 
@@ -17,10 +17,10 @@ namespace Sat.Recruitment.Api.Model.Validators
         /// </summary>
         /// <param name="accessor">The expression used to extract the string value to be validated.</param>
         /// <param name="errorMessage">The message to be sent if value were null.</param>
-        public StringNotNullValidationRule(Func<User, string> accessor, string errorMessage)
+        public StringNotNullValidationRule(Func<User, string?> accessor, string errorMessage)
         {
-            this.getValue = accessor ?? throw new ArgumentNullException(nameof(accessor));
-            this.errorMessage = errorMessage ?? throw new ArgumentNullException(nameof(errorMessage));
+            this.getValue = accessor;
+            this.errorMessage = errorMessage;
         }
 
         /// <inheritdoc />

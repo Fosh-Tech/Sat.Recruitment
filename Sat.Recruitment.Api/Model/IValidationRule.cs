@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Sat.Recruitment.Api.Model.Validators
+namespace Sat.Recruitment.Api.Model
 {
     /// <summary>
     /// Defines a validation rule strategy to be applied to an incoming user.
     /// </summary>
-    internal interface IValidationRule
+    public interface IValidationRule
     {
         /// <summary>
         /// Validate the specified used applying the current rule strategy.
