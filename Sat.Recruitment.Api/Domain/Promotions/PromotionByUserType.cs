@@ -1,4 +1,4 @@
-﻿namespace Sat.Recruitment.Api.Model.Promotions
+﻿namespace Sat.Recruitment.Api.Domain.Promotions
 {
     /// <summary>
     /// Applies a promotion only to users of a specific type.

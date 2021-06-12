@@ -31,5 +31,6 @@ namespace Sat.Recruitment.Api.Model.Validators
                 yield return this.errorMessage;
             }
         }
+
     }
 }

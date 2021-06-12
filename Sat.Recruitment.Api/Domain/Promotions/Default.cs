@@ -1,18 +1,8 @@
-﻿using Sat.Recruitment.Api.Model.Promotions;
-
-namespace Sat.Recruitment.Api.Model.Validators
+﻿namespace Sat.Recruitment.Api.Domain.Promotions
 {
-    internal static class Defaults
+    internal static class Default
     {
-        public static IValidationRule Validator() => new CompositeValidationRule
-        {
-            new StringNotNullValidationRule(x => x.Name, "The name is required"),
-            new StringNotNullValidationRule(x => x.Email, "The email is required"),
-            new StringNotNullValidationRule(x => x.Address, "The address is required"),
-            new StringNotNullValidationRule(x => x.Phone, "The phone is required")
-        };
-
-        public static IPromotion Promotion() => new CompositePromotion
+        public static IPromotion Create() => new CompositePromotion
         {
             NormalUserPromotion(),
             NormalUserPromotion(),

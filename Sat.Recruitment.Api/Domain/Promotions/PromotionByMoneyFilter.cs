@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sat.Recruitment.Api.Model.Promotions
+namespace Sat.Recruitment.Api.Domain.Promotions
 {
     /// <summary>
     /// Applies another promotion only to users that matches a specified filter.

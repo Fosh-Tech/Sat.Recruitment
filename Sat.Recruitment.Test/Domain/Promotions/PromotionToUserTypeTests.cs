@@ -2,12 +2,12 @@
 
 using NSubstitute;
 
-using Sat.Recruitment.Api.Model;
-using Sat.Recruitment.Api.Model.Promotions;
+using Sat.Recruitment.Api.Domain;
+using Sat.Recruitment.Api.Domain.Promotions;
 
 using Xunit;
 
-namespace Sat.Recruitment.Test.Model.Promotions
+namespace Sat.Recruitment.Test.Domain.Promotions
 {
     public class PromotionToUserTypeTests
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Sat.Recruitment.Api.Model.Promotions
+namespace Sat.Recruitment.Api.Domain.Promotions
 {
     /// <summary>
     /// Defines operations to create a complex promotion composition.

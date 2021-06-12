@@ -1,4 +1,4 @@
-﻿namespace Sat.Recruitment.Api.Model
+﻿namespace Sat.Recruitment.Api.Domain
 {
     /// <summary>
     /// Defines promotion rules to apply to an user's money if proceed.
