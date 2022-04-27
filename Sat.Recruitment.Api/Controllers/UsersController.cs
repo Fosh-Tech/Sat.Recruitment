@@ -14,11 +14,11 @@ namespace Sat.Recruitment.Api.Controllers
         public string Errors { get; set; }
     }
 
+
     [ApiController]
     [Route("[controller]")]
     public partial class UsersController : ControllerBase
     {
-
         private readonly List<User> _users = new List<User>();
         public UsersController()
         {
