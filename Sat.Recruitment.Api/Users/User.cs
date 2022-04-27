@@ -40,7 +40,7 @@ namespace Sat.Recruitment.Api.Users
             if (!_errors.Any())
             {
                 Name = name;
-                Email = email;
+                Email = GetNormalizedEmail(email);
                 Address = address;
                 Phone = phone;
                 UserType = userType;
@@ -67,6 +67,21 @@ namespace Sat.Recruitment.Api.Users
             }
 
             return errorMessage.ToString();
+        }
+
+        public bool IsDuplicated(User user)
+        {
+            return Email == user.Email || Phone == user.Phone || (Name == user.Name && Email == user.Email);
+        }
+
+        private string GetNormalizedEmail(string unNormalizedValue)
+        {
+            string[] aux = unNormalizedValue.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+            int atIndex = aux[0].IndexOf("+", StringComparison.Ordinal);
+
+            aux[0] = atIndex < 0 ? aux[0].Replace(".", "") : aux[0].Replace(".", "").Remove(atIndex);
+
+            return string.Join("@", new string[] { aux[0], aux[1] });
         }
     }
 }

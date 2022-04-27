@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sat.Recruitment.Api.Common;
 using Sat.Recruitment.Api.Users;
+using Sat.Recruitment.Api.Exceptions;
 
 namespace Sat.Recruitment.Api.Applications
 {
@@ -16,9 +18,30 @@ namespace Sat.Recruitment.Api.Applications
             _userValidator = userValidator ?? throw new ArgumentNullException(nameof(userValidator));
         }
 
-        Result IUsersApplication.CreateUsers()
+        User IUsersApplication.CreateUsers(string name, string email, string address, string phone, UserTypes userType, decimal money)
         {
-            return null;
+            User newUser = new User(name, email, address, phone, userType, money);
+
+            if (!newUser.HasErrors)
+            {
+                _userValidator.ValidateDuplicatedUsers(newUser);
+
+                ConfigureUser(newUser);
+            }
+
+            return newUser;
+        }
+
+        private void ConfigureUser(User user)
+        {
+            IUserConfigurator userConfigurator = _usersConfigurators.FirstOrDefault(x => x.UserType == user.UserType);
+
+            if (userConfigurator == null)
+            {
+                throw new IocException(Constants.IOC_EXCEPTION);
+            }
+
+            userConfigurator.ConfigureMoney(user);
         }
     }
 }

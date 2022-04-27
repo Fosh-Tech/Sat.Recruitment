@@ -1,9 +1,10 @@
 ﻿using System;
+using Sat.Recruitment.Api.Common;
 
 namespace Sat.Recruitment.Api.Users
 {
     public interface IUserValidator
     {
-        void Validate(User user);
+        void ValidateDuplicatedUsers(User user);
     }
 }

@@ -21,7 +21,7 @@ namespace Sat.Recruitment.Test
 
 
             Assert.Equal(true, result.IsSuccess);
-            Assert.Equal("User Created", result.Errors);
+            Assert.Equal("User Created", result.UserMessages);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Sat.Recruitment.Test
 
 
             Assert.Equal(false, result.IsSuccess);
-            Assert.Equal("The user is duplicated", result.Errors);
+            Assert.Equal("The user is duplicated", result.UserMessages);
         }
     }
 }

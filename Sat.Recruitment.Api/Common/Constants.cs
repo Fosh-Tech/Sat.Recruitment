@@ -10,6 +10,11 @@ namespace Sat.Recruitment.Api.Common
         public static string PHONE_IS_MANDATORY = "The phone is required";
 
         public static string DUPLICATED_USER = "The user is duplicated";
+        public static string CREATED_USER = "The user has been created";
         public static string FILE_PATH = "/Files/Users.txt";
+
+        public const string FIELD_SEPARATOR = ",";
+
+        public const string IOC_EXCEPTION = "Component not registered";
     }
 }

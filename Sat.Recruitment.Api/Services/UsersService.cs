@@ -11,38 +11,38 @@ namespace Sat.Recruitment.Api.Services
     {
         List<User> IUsersService.GetAllUsers()
         {
-            return null;
+            List<User> users = new List<User>();
 
-            /*
-            var reader = ReadUsersFromFile();
+            StreamReader usersStream = ReadUsersFromFile();
 
-            //Normalize email
-            var aux = newUser.Email.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
-
-            var atIndex = aux[0].IndexOf("+", StringComparison.Ordinal);
-
-            aux[0] = atIndex < 0 ? aux[0].Replace(".", "") : aux[0].Replace(".", "").Remove(atIndex);
-
-            newUser.Email = string.Join("@", new string[] { aux[0], aux[1] });
-
-            while (reader.Peek() >= 0)
+            while (usersStream.Peek() >= 0)
             {
-                var line = reader.ReadLineAsync().Result;
-                var user = new User
+                string line = usersStream.ReadLineAsync().Result;
+
+                User currentUser = CreateUser(line);
+
+                if (!currentUser.HasErrors)
                 {
-                    Name = line.Split(',')[0].ToString(),
-                    Email = line.Split(',')[1].ToString(),
-                    Phone = line.Split(',')[2].ToString(),
-                    Address = line.Split(',')[3].ToString(),
-                    UserType = line.Split(',')[4].ToString(),
-                    Money = decimal.Parse(line.Split(',')[5].ToString()),
-                };
-                _users.Add(user);
+                    users.Add(currentUser);
+                }
             }
-            reader.Close();
-            */
+            usersStream.Close();
 
+            return users;
+        }
 
+        private User CreateUser(string record)
+        {
+            string name = record.Split(Constants.FIELD_SEPARATOR)[0].ToString();
+            string email = record.Split(Constants.FIELD_SEPARATOR)[1].ToString();
+            string phone = record.Split(Constants.FIELD_SEPARATOR)[2].ToString();
+            string address = record.Split(Constants.FIELD_SEPARATOR)[3].ToString();
+            string type = record.Split(Constants.FIELD_SEPARATOR)[4].ToString();
+            decimal money = decimal.Parse(record.Split(Constants.FIELD_SEPARATOR)[5].ToString());
+
+            UserTypes userType = Enum.Parse<UserTypes>(type);
+
+            return new User(name, email, address, phone, userType, money);
         }
 
 

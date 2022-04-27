@@ -2,7 +2,12 @@
 {
     public class Result
     {
-        public bool IsSuccess { get; set; }
-        public string Errors { get; set; }
+        public Result(bool isSuccess, string userMessages)
+        {
+            IsSuccess = isSuccess;
+            UserMessages = userMessages;
+        }
+        public bool IsSuccess { get; }
+        public string UserMessages { get;  }
     }
 }
