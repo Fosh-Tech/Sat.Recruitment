@@ -17,10 +17,10 @@ namespace Sat.Recruitment.Api.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public partial class User : ControllerBase
+    public partial class UsersController : ControllerBase
     {
         private readonly List<User> _users = new List<User>();
-        public User()
+        public UsersController()
         {
         }
 
