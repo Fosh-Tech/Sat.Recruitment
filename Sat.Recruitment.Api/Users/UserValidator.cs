@@ -17,6 +17,8 @@ namespace Sat.Recruitment.Api.Users
 
         void IUserValidator.ValidateDuplicatedUsers(User user)
         {
+            _ = user ?? throw new ArgumentNullException(nameof(user));
+
             List<User> storedUsers = _usersService.GetAllUsers();
 
             for (int i = 0; i < storedUsers.Count; i++)
