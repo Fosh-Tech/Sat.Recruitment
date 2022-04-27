@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Sat.Recruitment.Api.Services;
+using Sat.Recruitment.Api.Applications;
 using Sat.Recruitment.Api.Users;
 using Unity;
 using Unity.Injection;
@@ -22,7 +22,7 @@ namespace Sat.Recruitment.Api.Common
 
             container.RegisterSingleton<IUserValidator, UserValidator>();
 
-            container.RegisterInstance<IUsersService>(new UsersService(Resolve<IUserValidator>(), ResolveByType<IUserConfigurator>()));
+            container.RegisterInstance<IUsersApplication>(new UsersApplication(Resolve<IUserValidator>(), ResolveByType<IUserConfigurator>()));
         }
 
         public static T Resolve<T>()

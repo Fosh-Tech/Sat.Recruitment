@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Sat.Recruitment.Api.Applications;
 using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Services;
 using Sat.Recruitment.Api.Users;
 using Unity;
 
@@ -18,11 +18,11 @@ namespace Sat.Recruitment.Api.Controllers
     {
         private readonly List<User> _users = new List<User>();
 
-        private readonly IUsersService _usersService;
+        private readonly IUsersApplication _usersService;
 
         public UsersController()
         {
-            _usersService = IocContainer.Resolve<IUsersService>();
+            _usersService = IocContainer.Resolve<IUsersApplication>();
         }
 
         [HttpPost]
@@ -30,7 +30,7 @@ namespace Sat.Recruitment.Api.Controllers
         public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType, string money)
         {
 
-            IUsersService usersService = IocContainer.Resolve<IUsersService>();
+            IUsersApplication usersService = IocContainer.Resolve<IUsersApplication>();
 
 
 
