@@ -27,14 +27,23 @@ namespace Sat.Recruitment.Api.Controllers
         [Route("/create-user")]
         public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType, string money)
         {
-            decimal userMoney = decimal.Parse(money);
-            UserTypes type = Enum.Parse<UserTypes>(userType);
+            decimal userMoney;
+            
+            if (!decimal.TryParse(money, out decimal parsedMoney))
+            {
+                userMoney = 0;
+            }
+
+            if (!Enum.TryParse<UserTypes>(userType, out UserTypes type))
+            {
+                throw new UserTypeException();
+            }
 
             Result result;
 
             try
             {
-                User newUser = _usersApplication.CreateUsers(name, email, address, phone, type, userMoney);
+                User newUser = _usersApplication.CreateUsers(name, email, address, phone, type, parsedMoney);
 
                 result = new Result(true, Constants.CREATED_USER);
             }

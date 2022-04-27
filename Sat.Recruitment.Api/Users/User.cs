@@ -6,35 +6,36 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sat.Recruitment.Api.Common;
+using Sat.Recruitment.Api.Exceptions;
 
 namespace Sat.Recruitment.Api.Users
 {
     public class User
     {
-        private Queue<string> _errors;
+        private List<string> _errors;
 
         public User(string name, string email, string address, string phone, UserTypes userType, decimal money)
         {
-            _errors = new Queue<string>();
+            _errors = new List<string>();
 
             if (string.IsNullOrEmpty(name))
             {
-                _errors.Enqueue(Constants.NAME_IS_MANDATORY);
+                _errors.Add(Constants.NAME_IS_MANDATORY);
             }
 
             if (string.IsNullOrEmpty(email))
             {
-                _errors.Enqueue(Constants.EMAIL_IS_MANDATORY);
+                _errors.Add(Constants.EMAIL_IS_MANDATORY);
             }
 
             if (string.IsNullOrEmpty(address))
             {
-                _errors.Enqueue(Constants.ADDRESS_IS_MANDATORY);
+                _errors.Add(Constants.ADDRESS_IS_MANDATORY);
             }
 
             if (string.IsNullOrEmpty(phone))
             {
-                _errors.Enqueue(Constants.PHONE_IS_MANDATORY);
+                _errors.Add(Constants.PHONE_IS_MANDATORY);
             }
 
             if (!_errors.Any())
@@ -55,7 +56,7 @@ namespace Sat.Recruitment.Api.Users
         public UserTypes UserType { get; set; }
         public decimal Money { get; set; }
 
-        public bool HasErrors => _errors.Count > 0;
+        public bool HasErrors => _errors.Any();
 
         public string GetErrors()
         {
@@ -63,7 +64,7 @@ namespace Sat.Recruitment.Api.Users
 
             for (int i = 0; i < _errors.Count; i++)
             {
-                errorMessage.Append(_errors.Dequeue());
+                errorMessage.Append(_errors[i]);
             }
 
             return errorMessage.ToString();
@@ -77,6 +78,12 @@ namespace Sat.Recruitment.Api.Users
         private string GetNormalizedEmail(string unNormalizedValue)
         {
             string[] aux = unNormalizedValue.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (aux.Length < 2)
+            {
+                throw new EMailException();
+            }
+
             int atIndex = aux[0].IndexOf("+", StringComparison.Ordinal);
 
             aux[0] = atIndex < 0 ? aux[0].Replace(".", "") : aux[0].Replace(".", "").Remove(atIndex);
