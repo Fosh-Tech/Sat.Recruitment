@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Sat.Recruitment.Api.Common;
+using Sat.Recruitment.Api.Services;
 using Sat.Recruitment.Api.Users;
 using Unity;
 
@@ -17,26 +18,23 @@ namespace Sat.Recruitment.Api.Controllers
     {
         private readonly List<User> _users = new List<User>();
 
-        private readonly IUserConfigurator[] _userValidators;
-
-        //[InjectionConstructor]
-        //public UsersController(IUserValidator[] userValidators)
-        //{
-        //    _userValidators = userValidators ?? throw new ArgumentNullException(nameof(userValidators));
-
-        //    // https://www.tutorialsteacher.com/ioc/constructor-injection-using-unity-container
-        //}
+        private readonly IUsersService _usersService;
 
         public UsersController()
         {
-
+            _usersService = IocContainer.Resolve<IUsersService>();
         }
 
         [HttpPost]
         [Route("/create-user")]
-        public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType,
-            string money)
+        public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType, string money)
         {
+
+            IUsersService usersService = IocContainer.Resolve<IUsersService>();
+
+
+
+
             var errors = "";
 
 
@@ -52,6 +50,7 @@ namespace Sat.Recruitment.Api.Controllers
                 };
 
             */
+            
 
             //var newUser = new User
             //{
@@ -100,6 +99,7 @@ namespace Sat.Recruitment.Api.Controllers
             //    }
             //}
 
+            
             /*
 
             var reader = ReadUsersFromFile();
@@ -181,18 +181,14 @@ namespace Sat.Recruitment.Api.Controllers
                 };
             }
 
+            */
+
             return new Result()
             {
                 IsSuccess = true,
                 Errors = "User Created"
           
             };
-        }
-
-        */
-
-            return null;
-
         }
 
     }
