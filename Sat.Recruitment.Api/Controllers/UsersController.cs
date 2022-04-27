@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Sat.Recruitment.Api.Applications;
+using Sat.Recruitment.Application.Applications;
 using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Exceptions;
-using Sat.Recruitment.Api.Users;
+using Sat.Recruitment.Application.Exceptions;
+using Sat.Recruitment.Entities.Entities;
+using Sat.Recruitment.Entities.Enums;
 using Unity;
 
 namespace Sat.Recruitment.Api.Controllers

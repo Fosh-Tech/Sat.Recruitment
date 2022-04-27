@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Users;
+using Sat.Recruitment.Entities.Entities;
 
-namespace Sat.Recruitment.Api.Services
+namespace Sat.Recruitment.Data.Services
 {
     public interface IUsersService
     {

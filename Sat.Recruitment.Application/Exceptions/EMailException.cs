@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sat.Recruitment.Api.Exceptions
+namespace Sat.Recruitment.Application.Exceptions
 {
     public class EMailException : Exception
     {

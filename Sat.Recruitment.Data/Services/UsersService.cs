@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Sat.Recruitment.Api.Applications;
-using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Users;
+using Sat.Recruitment.Entities.Entities;
+using Sat.Recruitment.Entities.Enums;
+using Sat.Recruitment.Data.Common;
 
-namespace Sat.Recruitment.Api.Services
+namespace Sat.Recruitment.Data.Services
 {
     public class UsersService : IUsersService
     {

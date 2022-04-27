@@ -1,4 +1,4 @@
-﻿namespace Sat.Recruitment.Api.Users
+﻿namespace Sat.Recruitment.Entities.Enums
 {
     public enum UserTypes
     {

@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Sat.Recruitment.Entities.Common;
+using Sat.Recruitment.Entities.Enums;
+using Sat.Recruitment.Entities.Exceptions;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Exceptions;
 
-namespace Sat.Recruitment.Api.Users
+namespace Sat.Recruitment.Entities.Entities
 {
     public class User
     {

@@ -1,6 +1,8 @@
 ﻿using System;
+using Sat.Recruitment.Entities.Entities;
+using Sat.Recruitment.Entities.Enums;
 
-namespace Sat.Recruitment.Api.Users
+namespace Sat.Recruitment.Application.Users
 {
     public class PremiumConfigurator : IUserConfigurator
     {
@@ -12,5 +14,6 @@ namespace Sat.Recruitment.Api.Users
 
             user.Money += user.Money * 2;
         }
+
     }
 }

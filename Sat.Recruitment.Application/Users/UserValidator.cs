@@ -1,10 +1,12 @@
 ﻿using System;
-using Sat.Recruitment.Api.Services;
-using Sat.Recruitment.Api.Exceptions;
-using Sat.Recruitment.Api.Common;
+
+using Sat.Recruitment.Application.Exceptions;
+using Sat.Recruitment.Data.Services;
+using Sat.Recruitment.Entities.Entities;
+using Sat.Recruitment.Application.Common;
 using System.Collections.Generic;
 
-namespace Sat.Recruitment.Api.Users
+namespace Sat.Recruitment.Application.Users
 {
     public class UserValidator : IUserValidator
     {
@@ -25,7 +27,7 @@ namespace Sat.Recruitment.Api.Users
             {
                 if (user.IsDuplicated(storedUsers[i]))
                 {
-                    throw new DuplicatedUserException(Constants.DUPLICATED_USER);
+                    throw new DuplicatedUserException();
                 }
             }
          }

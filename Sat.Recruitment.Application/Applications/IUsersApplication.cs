@@ -1,7 +1,7 @@
-﻿using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Users;
+﻿using Sat.Recruitment.Entities.Entities;
+using Sat.Recruitment.Entities.Enums;
 
-namespace Sat.Recruitment.Api.Applications
+namespace Sat.Recruitment.Application.Applications
 {
     public interface IUsersApplication
     {

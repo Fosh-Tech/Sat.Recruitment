@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Sat.Recruitment.Api.Applications;
-using Sat.Recruitment.Api.Users;
-using Sat.Recruitment.Api.Services;
+using Sat.Recruitment.Application.Users;
+using Sat.Recruitment.Application.Applications;
+using Sat.Recruitment.Data.Services;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;

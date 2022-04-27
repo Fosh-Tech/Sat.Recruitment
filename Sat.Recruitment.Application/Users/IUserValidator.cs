@@ -1,7 +1,6 @@
-﻿using System;
-using Sat.Recruitment.Api.Common;
+﻿using Sat.Recruitment.Entities.Entities;
 
-namespace Sat.Recruitment.Api.Users
+namespace Sat.Recruitment.Application.Users
 {
     public interface IUserValidator
     {

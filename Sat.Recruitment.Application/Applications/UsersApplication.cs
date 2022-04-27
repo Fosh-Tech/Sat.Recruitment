@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Users;
-using Sat.Recruitment.Api.Exceptions;
+using Sat.Recruitment.Entities.Entities;
+using Sat.Recruitment.Entities.Enums;
+using Sat.Recruitment.Application.Users;
+using Sat.Recruitment.Application.Common;
+using Sat.Recruitment.Application.Exceptions;
 
-namespace Sat.Recruitment.Api.Applications
+namespace Sat.Recruitment.Application.Applications
 {
     public class UsersApplication : IUsersApplication
     {

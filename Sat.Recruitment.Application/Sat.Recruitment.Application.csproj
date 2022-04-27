@@ -4,4 +4,26 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Common\IocContainer.cs" />
+    <Compile Remove="Common\Result.cs" />
+    <Compile Remove="Users\User.cs" />
+    <Compile Remove="Users\UserTypes.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sat.Recruitment.Data\Sat.Recruitment.Data.csproj" />
+    <ProjectReference Include="..\Sat.Recruitment.Dto\Sat.Recruitment.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
