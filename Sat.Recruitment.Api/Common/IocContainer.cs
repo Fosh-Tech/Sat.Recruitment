@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Sat.Recruitment.Api.Applications;
 using Sat.Recruitment.Api.Users;
+using Sat.Recruitment.Api.Services;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
@@ -20,8 +21,9 @@ namespace Sat.Recruitment.Api.Common
             container.RegisterSingleton<IUserConfigurator, PremiumConfigurator>(Guid.NewGuid().ToString());
             container.RegisterSingleton<IUserConfigurator, SuperUserConfigurator>(Guid.NewGuid().ToString());
 
-            container.RegisterSingleton<IUserValidator, UserValidator>();
+            container.RegisterSingleton<IUsersService, UsersService>();
 
+            container.RegisterInstance<IUserValidator>(new UserValidator(Resolve<IUsersService>()), new SingletonLifetimeManager());
             container.RegisterInstance<IUsersApplication>(new UsersApplication(Resolve<IUserValidator>(), ResolveByType<IUserConfigurator>()));
         }
 
