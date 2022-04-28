@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Data", "Sat.Recruitment.Data\Sat.Recruitment.Data.csproj", "{ADC56161-A21D-4233-A4C8-2235A47D12ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Entities", "Sat.Recruitment.Dto\Sat.Recruitment.Entities.csproj", "{E88524FE-541F-4560-8909-8860105867FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Entities", "Sat.Recruitment.Entities\Sat.Recruitment.Entities.csproj", "{E88524FE-541F-4560-8909-8860105867FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Dtos", "Sat.Recruitment.Dtos\Sat.Recruitment.Dtos.csproj", "{036B0A80-540D-45D9-98E0-91A05762A9AE}"
 EndProject
