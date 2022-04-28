@@ -1,11 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AutoMapper;
+using Sat.Recruitment.Dtos.Dtos;
+using Sat.Recruitment.Entities.Entities;
 
 namespace Sat.Recruitment.Dtos.TypeConverters
 {
-    internal class Class1
+    public class UserConverter : ITypeConverter<User, UserDto>
     {
+        public UserDto Convert(User source, UserDto destination, ResolutionContext context)
+        {
+            UserDto result = null;
+
+            if (source != null)
+            {
+
+                result = new UserDto(source.Name, source.Email, source.Address, source.Phone, source.UserType, source.Money);
+
+            }
+
+            return result;
+        }
+
     }
 }
 

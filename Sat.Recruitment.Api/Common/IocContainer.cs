@@ -5,6 +5,7 @@ using System.Linq;
 using Sat.Recruitment.Application.Users;
 using Sat.Recruitment.Application.Applications;
 using Sat.Recruitment.Data.Services;
+using Sat.Recruitment.Dtos.Common;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;

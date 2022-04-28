@@ -13,11 +13,13 @@
   <ItemGroup>
     <Compile Remove="Common\IocContainer.cs" />
     <Compile Remove="Common\Result.cs" />
+    <Compile Remove="Exceptions\UserTypeException.cs" />
     <Compile Remove="Users\User.cs" />
     <Compile Remove="Users\UserTypes.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 

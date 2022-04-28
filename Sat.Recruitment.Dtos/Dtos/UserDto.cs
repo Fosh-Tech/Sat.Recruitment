@@ -8,7 +8,7 @@ using Sat.Recruitment.Dtos.Exceptions;
 
 namespace Sat.Recruitment.Dtos.Dtos
 {
-    public class User
+    public class UserDto
     {
         private List<string> _errors;
 
