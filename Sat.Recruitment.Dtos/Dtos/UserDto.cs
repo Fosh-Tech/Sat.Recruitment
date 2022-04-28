@@ -12,6 +12,15 @@ namespace Sat.Recruitment.Dtos.Dtos
     {
         private List<string> _errors;
 
+        public string Name { get; }
+        public string Email { get; }
+        public string Address { get; }
+        public string Phone { get; }
+        public UserTypes UserType { get; set; }
+        public decimal Money { get; set; }
+
+        public bool HasErrors => _errors.Any();
+
         public UserDto(string name, string email, string address, string phone, string userType, string money)
         {
             _errors = new List<string>();
@@ -47,15 +56,6 @@ namespace Sat.Recruitment.Dtos.Dtos
             }
         }
 
-        public string Name { get; }
-        public string Email { get; }
-        public string Address { get; }
-        public string Phone { get; }
-        public UserTypes UserType { get; set; }
-        public decimal Money { get; set; }
-
-        public bool HasErrors => _errors.Any();
-
         public string GetErrors()
         {
             StringBuilder errorMessage = new StringBuilder();
@@ -89,7 +89,7 @@ namespace Sat.Recruitment.Dtos.Dtos
             return string.Join("@", new string[] { aux[0], aux[1] });
         }
 
-        public decimal GetMoney(string value)
+        private decimal GetMoney(string value)
         {
             if (!decimal.TryParse(value, out decimal parsedValue))
             {
@@ -99,7 +99,7 @@ namespace Sat.Recruitment.Dtos.Dtos
             return parsedValue;
         }
 
-        public UserTypes GetUserType(string value)
+        private UserTypes GetUserType(string value)
         {
             if (!Enum.TryParse<UserTypes>(value, out UserTypes type))
             {
@@ -107,7 +107,6 @@ namespace Sat.Recruitment.Dtos.Dtos
             }
 
             return type;
-
         }
     }
 }

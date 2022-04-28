@@ -15,7 +15,6 @@ namespace Sat.Recruitment.Test
     [CollectionDefinition("Tests", DisableParallelization = true)]
     public class NormalConfiguratorTests
     {
-        private IUserConfigurator _userConfigurator;
 
         [Fact]
         public void ConfigureMoney_WithNullUser_ThrowArgumentNullException()
