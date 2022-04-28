@@ -14,9 +14,9 @@ namespace Sat.Recruitment.Api.Controllers
     {
         private readonly IUsersApplication _usersApplication;
 
-        public UsersController()
+        public UsersController(IUsersApplication usersApplication)
         {
-            _usersApplication = IocContainer.Resolve<IUsersApplication>();
+            _usersApplication = usersApplication ?? throw new ArgumentNullException(nameof(usersApplication));
         }
 
         [HttpPost]

@@ -11,10 +11,10 @@ namespace Sat.Recruitment.Application.Applications
 {
     public class UsersApplication : IUsersApplication
     {
-        private readonly List<IUserConfigurator> _usersConfigurators;
+        private readonly IEnumerable<IUserConfigurator> _usersConfigurators;
         private readonly IUserValidator _userValidator;
 
-        public UsersApplication(IUserValidator userValidator, List<IUserConfigurator> userConfigurators)
+        public UsersApplication(IUserValidator userValidator, IEnumerable<IUserConfigurator> userConfigurators)
         {
             _usersConfigurators = userConfigurators ?? throw new ArgumentNullException(nameof(userConfigurators));
             _userValidator = userValidator ?? throw new ArgumentNullException(nameof(userValidator));
