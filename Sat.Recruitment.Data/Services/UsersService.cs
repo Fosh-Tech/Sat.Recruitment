@@ -37,10 +37,8 @@ namespace Sat.Recruitment.Data.Services
             string email = record.Split(Constants.FIELD_SEPARATOR)[1].ToString();
             string phone = record.Split(Constants.FIELD_SEPARATOR)[2].ToString();
             string address = record.Split(Constants.FIELD_SEPARATOR)[3].ToString();
-            string type = record.Split(Constants.FIELD_SEPARATOR)[4].ToString();
+            string userType = record.Split(Constants.FIELD_SEPARATOR)[4].ToString();
             decimal money = decimal.Parse(record.Split(Constants.FIELD_SEPARATOR)[5].ToString());
-
-            UserTypes userType = Enum.Parse<UserTypes>(type);
 
             return new User(name, email, address, phone, userType, money);
         }

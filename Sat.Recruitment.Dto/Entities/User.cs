@@ -1,6 +1,5 @@
 ﻿using Sat.Recruitment.Entities.Common;
 using Sat.Recruitment.Entities.Enums;
-using Sat.Recruitment.Entities.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace Sat.Recruitment.Entities.Entities
     {
         private List<string> _errors;
 
-        public User(string name, string email, string address, string phone, string userType, decimal money)
+        public User(string name, string email, string address, string phone, string userType, string money)
         {
             Name = name;
             Email = email;
@@ -27,7 +26,7 @@ namespace Sat.Recruitment.Entities.Entities
         public string Address { get; }
         public string Phone { get; }
         public string UserType { get; set; }
-        public decimal Money { get; set; }
+        public string Money { get; set; }
 
         public bool HasErrors => _errors.Any();
 

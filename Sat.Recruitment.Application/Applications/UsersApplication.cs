@@ -6,6 +6,7 @@ using Sat.Recruitment.Entities.Enums;
 using Sat.Recruitment.Application.Users;
 using Sat.Recruitment.Application.Exceptions;
 using Sat.Recruitment.Dtos.Common;
+using Sat.Recruitment.Dtos.Dtos;
 using Constants = Sat.Recruitment.Application.Common.Constants;
 
 namespace Sat.Recruitment.Application.Applications
@@ -21,9 +22,9 @@ namespace Sat.Recruitment.Application.Applications
             _userValidator = userValidator ?? throw new ArgumentNullException(nameof(userValidator));
         }
 
-        User IUsersApplication.CreateUsers(string name, string email, string address, string phone, UserTypes userType, decimal money)
+        UserDto IUsersApplication.CreateUsers(string name, string email, string address, string phone, string userType, string money)
         {
-            User newUser = new User(name, email, address, phone, userType, money);
+            UserDto newUser = new UserDto(name, email, address, phone, userType, money);
 
             if (!newUser.HasErrors)
             {
@@ -35,7 +36,7 @@ namespace Sat.Recruitment.Application.Applications
             return newUser;
         }
 
-        private void ConfigureUser(User user)
+        private void ConfigureUser(UserDto user)
         {
             IUserConfigurator userConfigurator = _usersConfigurators.FirstOrDefault(x => x.UserType == user.UserType);
 
