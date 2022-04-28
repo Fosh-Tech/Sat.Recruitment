@@ -18,7 +18,7 @@ namespace Sat.Recruitment.Dtos.Common
             return parsedValue;
         }
 
-        public T GetEnum<T>(string value) where T : Type
+        public T GetEnum<T>(string value) where T : struct
         {
             if (!Enum.TryParse<T>(value, out T type))
             {
