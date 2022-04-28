@@ -1,11 +1,15 @@
 
 using Moq;
-using Sat.Recruitment.Api.Applications;
 using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Exceptions;
-using Sat.Recruitment.Api.Users;
 using System.Collections.Generic;
 using Xunit;
+using Sat.Recruitment.Application.Users;
+using Sat.Recruitment.Application.Applications;
+using Sat.Recruitment.Application.Exceptions;
+using Sat.Recruitment.Dtos.Common;
+using Sat.Recruitment.Dtos.Enums;
+using Sat.Recruitment.Dtos.Dtos;
+using Sat.Recruitment.Dtos.Exceptions;
 
 
 namespace Sat.Recruitment.Test
@@ -22,7 +26,7 @@ namespace Sat.Recruitment.Test
         {
             IUsersApplication service = GetService();
 
-            User user = service.CreateUsers(string.Empty, "mail@mail.box", "address", "9876543", UserTypes.Normal, 123);
+            UserDto user = service.CreateUsers(string.Empty, "mail@mail.box", "address", "9876543", "Normal", "123");
 
             Assert.NotNull(user);
             Assert.Null(user.Name);
@@ -33,7 +37,7 @@ namespace Sat.Recruitment.Test
 
             string errors = user.GetErrors();
 
-            Assert.Equal(Constants.NAME_IS_MANDATORY, errors);
+            Assert.Equal(Dtos.Common.Constants.NAME_IS_MANDATORY, errors);
 
         }
 
@@ -42,7 +46,7 @@ namespace Sat.Recruitment.Test
         {
             IUsersApplication service = GetService();
             
-            Assert.Throws<EMailException>(() => service.CreateUsers("name", "mail", "address", "9876543", UserTypes.Normal, 123));
+            Assert.Throws<EMailException>(() => service.CreateUsers("name", "mail", "address", "9876543", "Normal", "123"));
         }
 
 
@@ -53,7 +57,7 @@ namespace Sat.Recruitment.Test
 
             _userConfigurator.Setup(x => x.UserType).Returns(UserTypes.SuperUser);
 
-            Assert.Throws<IocException>(() => service.CreateUsers("name", "mail@mail.box", "address", "9876543", UserTypes.Normal, 123));
+            Assert.Throws<IocException>(() => service.CreateUsers("name", "mail@mail.box", "address", "9876543", "Normal", "123"));
         }
 
         [Fact]
@@ -61,7 +65,7 @@ namespace Sat.Recruitment.Test
         {
             IUsersApplication service = GetService();
 
-            User user = service.CreateUsers("name", "mail@mail.box", "address", "9876543", UserTypes.Normal, 123);
+            UserDto user = service.CreateUsers("name", "mail@mail.box", "address", "9876543", "Normal", "123");
 
             _userConfigurator.Setup(x => x.UserType).Returns(UserTypes.Normal);
 
@@ -74,8 +78,8 @@ namespace Sat.Recruitment.Test
             Assert.Equal(123, user.Money);
             Assert.False(user.HasErrors);
 
-            _userConfigurator.Verify(x => x.ConfigureMoney(It.IsAny<User>()), Times.Once);
-            _userValidator.Verify(x => x.ValidateDuplicatedUsers(It.IsAny<User>()), Times.Once);
+            _userConfigurator.Verify(x => x.ConfigureMoney(It.IsAny<UserDto>()), Times.Once);
+            _userValidator.Verify(x => x.ValidateDuplicatedUsers(It.IsAny<UserDto>()), Times.Once);
 
         }
 

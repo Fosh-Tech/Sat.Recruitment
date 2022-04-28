@@ -1,16 +1,7 @@
 using System;
-using System.Dynamic;
-
-using Microsoft.AspNetCore.Mvc;
-
 using Xunit;
-using Sat.Recruitment.Api.Applications;
-using Sat.Recruitment.Api.Users;
-using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Exceptions;
-using Moq;
-using System.Collections.Generic;
-
+using Sat.Recruitment.Application.Users;
+using Sat.Recruitment.Dtos.Dtos;
 
 namespace Sat.Recruitment.Test
 {
@@ -28,13 +19,13 @@ namespace Sat.Recruitment.Test
         }
 
         [Theory]
-        [InlineData(100, 300)]
-        [InlineData(50, 150)]
-        public void ConfigureMoney_WithInformedUser_SetExpectedValue(decimal money, decimal expectedMoney)
+        [InlineData("100", 300)]
+        [InlineData("50", 150)]
+        public void ConfigureMoney_WithInformedUser_SetExpectedValue(string money, decimal expectedMoney)
         {
             IUserConfigurator service = GetService();
 
-            User user = new User("name", "mail@mail.box", "address", "9876543", UserTypes.Normal, money);
+            UserDto user = new UserDto("name", "mail@mail.box", "address", "9876543", "Normal", money);
 
             service.ConfigureMoney(user);
 

@@ -1,14 +1,13 @@
 using System;
-using System.Dynamic;
-using Microsoft.AspNetCore.Mvc;
 using Xunit;
-using Sat.Recruitment.Api.Applications;
-using Sat.Recruitment.Api.Users;
-using Sat.Recruitment.Api.Services;
-using Sat.Recruitment.Api.Common;
-using Sat.Recruitment.Api.Exceptions;
 using Moq;
 using System.Collections.Generic;
+using Sat.Recruitment.Data.Services;
+using Sat.Recruitment.Application.Exceptions;
+using Sat.Recruitment.Application.Users;
+using Sat.Recruitment.Entities.Entities;
+using Sat.Recruitment.Dtos.Dtos;
+using Sat.Recruitment.Dtos.Enums;
 
 
 namespace Sat.Recruitment.Test
@@ -31,7 +30,7 @@ namespace Sat.Recruitment.Test
         {
             IUserValidator service = GetService();
 
-            User user = new User("name", "mail@mail.box", "address", "9876543", UserTypes.Normal, 123);
+            UserDto user = new UserDto("name", "mail@mail.box", "address", "9876543", "Normal", "123");
 
             _usersService.Setup(x => x.GetAllUsers()).Returns(new List<User>());
 
@@ -43,8 +42,8 @@ namespace Sat.Recruitment.Test
         {
             IUserValidator service = GetService();
 
-            User user = new User("name", "mail@mail.box", "address", "9876543", UserTypes.Normal, 123);
-            User storedUser = new User("name01", "mail01@mail.box", "address01", "9876544", UserTypes.Normal, 123);
+            UserDto user = new UserDto("name", "mail@mail.box", "address", "9876543", "Normal", "123");
+            User storedUser = new User("name01", "mail01@mail.box", "address01", "9876544", "Normal", "123");
 
             _usersService.Setup(x => x.GetAllUsers()).Returns(new List<User>() { storedUser });
 
@@ -58,9 +57,10 @@ namespace Sat.Recruitment.Test
         {
             IUserValidator service = GetService();
 
-            User user = new User("name", "mail@mail.box", "address", "9876543", UserTypes.Normal, 123);
+            User storedUser = new User("name", "mail@mail.box", "address", "9876543", "Normal", "123");
+            UserDto user = new UserDto("name", "mail@mail.box", "address", "9876543", "Normal", "123");
 
-            _usersService.Setup(x => x.GetAllUsers()).Returns(new List<User>() { user });
+            _usersService.Setup(x => x.GetAllUsers()).Returns(new List<User>() { storedUser });
 
             Assert.Throws<DuplicatedUserException>(() => service.ValidateDuplicatedUsers(user));
 

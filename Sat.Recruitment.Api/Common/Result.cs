@@ -7,6 +7,7 @@
             IsSuccess = isSuccess;
             UserMessages = userMessages;
         }
+
         public bool IsSuccess { get; }
         public string UserMessages { get;  }
     }

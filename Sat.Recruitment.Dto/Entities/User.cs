@@ -6,8 +6,6 @@ namespace Sat.Recruitment.Entities.Entities
 {
     public class User
     {
-        private List<string> _errors;
-
         public User(string name, string email, string address, string phone, string userType, string money)
         {
             Name = name;
@@ -24,8 +22,6 @@ namespace Sat.Recruitment.Entities.Entities
         public string Phone { get; }
         public string UserType { get; set; }
         public string Money { get; set; }
-
-        public bool HasErrors => _errors.Any();
 
     }
 }

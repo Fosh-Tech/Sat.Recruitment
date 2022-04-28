@@ -7,22 +7,18 @@
   <ItemGroup>
     <Compile Remove="Applications\**" />
     <Compile Remove="Exceptions\**" />
-    <Compile Remove="Files\**" />
     <Compile Remove="Services\**" />
     <Compile Remove="Users\**" />
     <Content Remove="Applications\**" />
     <Content Remove="Exceptions\**" />
-    <Content Remove="Files\**" />
     <Content Remove="Services\**" />
     <Content Remove="Users\**" />
     <EmbeddedResource Remove="Applications\**" />
     <EmbeddedResource Remove="Exceptions\**" />
-    <EmbeddedResource Remove="Files\**" />
     <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="Users\**" />
     <None Remove="Applications\**" />
     <None Remove="Exceptions\**" />
-    <None Remove="Files\**" />
     <None Remove="Services\**" />
     <None Remove="Users\**" />
   </ItemGroup>
@@ -39,6 +35,12 @@
     <ProjectReference Include="..\Sat.Recruitment.Data\Sat.Recruitment.Data.csproj" />
     <ProjectReference Include="..\Sat.Recruitment.Dtos\Sat.Recruitment.Dtos.csproj" />
     <ProjectReference Include="..\Sat.Recruitment.Dto\Sat.Recruitment.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Files\Users.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 

@@ -12,20 +12,16 @@ namespace Sat.Recruitment.Data.Services
         {
             List<User> users = new List<User>();
 
-            StreamReader usersStream = ReadUsersFromFile();
-
-            while (usersStream.Peek() >= 0)
+            using (StreamReader usersStream = ReadUsersFromFile())
             {
-                string line = usersStream.ReadLineAsync().Result;
-
-                User currentUser = CreateUser(line);
-
-                if (!currentUser.HasErrors)
+                while (usersStream.Peek() >= 0)
                 {
+                    string line = usersStream.ReadLineAsync().Result;
+                    User currentUser = CreateUser(line);
+
                     users.Add(currentUser);
                 }
             }
-            usersStream.Close();
 
             return users;
         }

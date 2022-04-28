@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Sat.Recruitment.Application.Applications;
 using Sat.Recruitment.Api.Common;
 using Sat.Recruitment.Application.Exceptions;
 using Sat.Recruitment.Dtos.Dtos;
-using Sat.Recruitment.Dtos.Enums;
-using Sat.Recruitment.Dtos.Exceptions;
-using Sat.Recruitment.Entities.Entities;
-using Unity;
 
 namespace Sat.Recruitment.Api.Controllers
 {
@@ -28,18 +21,18 @@ namespace Sat.Recruitment.Api.Controllers
 
         [HttpPost]
         [Route("/create-user")]
-        public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType, string money)
+        public async Task<Result> CreateUser(ApiUser user)
         {
 
             Result result;
 
             try
             {
-                UserDto newUser = _usersApplication.CreateUsers(name, email, address, phone, userType, money);
+                UserDto newUser = _usersApplication.CreateUsers(user.Name, user.Email, user.Address, user.Phone, user.UserType, user.Money);
 
                 result = new Result(true, Constants.CREATED_USER);
             }
-            catch (DuplicatedUserException duplicatedUserException)
+            catch (DuplicatedUserException)
             {
                 result = new Result(true, Constants.DUPLICATED_USER);
             }
