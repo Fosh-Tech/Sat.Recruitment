@@ -1,6 +1,7 @@
 ﻿using System;
-using Sat.Recruitment.Entities.Entities;
-using Sat.Recruitment.Entities.Enums;
+using Sat.Recruitment.Dtos.Dtos;
+using Sat.Recruitment.Dtos.Enums;
+
 
 namespace Sat.Recruitment.Application.Users
 {
@@ -8,7 +9,7 @@ namespace Sat.Recruitment.Application.Users
     {
         UserTypes IUserConfigurator.UserType => UserTypes.SuperUser;
 
-        void IUserConfigurator.ConfigureMoney(User user)
+        void IUserConfigurator.ConfigureMoney(UserDto user)
         {
             _ = user ?? throw new ArgumentNullException(nameof(user));
 

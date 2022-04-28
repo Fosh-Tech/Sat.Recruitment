@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using Sat.Recruitment.Application.Applications;
 using Sat.Recruitment.Api.Common;
 using Sat.Recruitment.Application.Exceptions;
+using Sat.Recruitment.Dtos.Dtos;
+using Sat.Recruitment.Dtos.Enums;
 using Sat.Recruitment.Dtos.Exceptions;
 using Sat.Recruitment.Entities.Entities;
-using Sat.Recruitment.Entities.Enums;
 using Unity;
 
 namespace Sat.Recruitment.Api.Controllers
@@ -29,23 +30,12 @@ namespace Sat.Recruitment.Api.Controllers
         [Route("/create-user")]
         public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType, string money)
         {
-            decimal userMoney;
-            
-            if (!decimal.TryParse(money, out decimal parsedMoney))
-            {
-                userMoney = 0;
-            }
-
-            if (!Enum.TryParse<UserTypes>(userType, out UserTypes type))
-            {
-                throw new UserTypeException();
-            }
 
             Result result;
 
             try
             {
-                User newUser = _usersApplication.CreateUsers(name, email, address, phone, type, parsedMoney);
+                UserDto newUser = _usersApplication.CreateUsers(name, email, address, phone, userType, money);
 
                 result = new Result(true, Constants.CREATED_USER);
             }

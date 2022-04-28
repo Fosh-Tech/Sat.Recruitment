@@ -10,4 +10,12 @@
     <None Remove="Exceptions\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Enums\UserTypes.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
 </Project>

@@ -1,12 +1,12 @@
 ﻿using System;
-using Sat.Recruitment.Entities.Entities;
-using Sat.Recruitment.Entities.Enums;
+using Sat.Recruitment.Dtos.Dtos;
+using Sat.Recruitment.Dtos.Enums;
 
 namespace Sat.Recruitment.Application.Users
 {
     public interface IUserConfigurator
     {
         UserTypes UserType { get; }
-        void ConfigureMoney(User user);
+        void ConfigureMoney(UserDto user);
     }
 }

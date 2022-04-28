@@ -1,6 +1,5 @@
 ﻿using Sat.Recruitment.Dtos.Dtos;
 using Sat.Recruitment.Entities.Entities;
-using Sat.Recruitment.Entities.Enums;
 
 namespace Sat.Recruitment.Application.Applications
 {

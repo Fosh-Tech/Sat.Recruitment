@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using Sat.Recruitment.Entities.Entities;
-using Sat.Recruitment.Entities.Enums;
 using Sat.Recruitment.Data.Common;
 
 namespace Sat.Recruitment.Data.Services
@@ -38,7 +37,7 @@ namespace Sat.Recruitment.Data.Services
             string phone = record.Split(Constants.FIELD_SEPARATOR)[2].ToString();
             string address = record.Split(Constants.FIELD_SEPARATOR)[3].ToString();
             string userType = record.Split(Constants.FIELD_SEPARATOR)[4].ToString();
-            decimal money = decimal.Parse(record.Split(Constants.FIELD_SEPARATOR)[5].ToString());
+            string money = record.Split(Constants.FIELD_SEPARATOR)[5].ToString();
 
             return new User(name, email, address, phone, userType, money);
         }

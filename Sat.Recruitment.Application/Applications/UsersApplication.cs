@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sat.Recruitment.Entities.Entities;
-using Sat.Recruitment.Entities.Enums;
 using Sat.Recruitment.Application.Users;
 using Sat.Recruitment.Application.Exceptions;
 using Sat.Recruitment.Dtos.Common;
