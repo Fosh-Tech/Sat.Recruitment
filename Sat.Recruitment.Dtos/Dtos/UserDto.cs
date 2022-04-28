@@ -12,7 +12,7 @@ namespace Sat.Recruitment.Dtos.Dtos
     {
         private List<string> _errors;
 
-        public User(string name, string email, string address, string phone, UserTypes userType, decimal money)
+        public UserDto(string name, string email, string address, string phone, string userType, string money)
         {
             _errors = new List<string>();
 
@@ -42,8 +42,8 @@ namespace Sat.Recruitment.Dtos.Dtos
                 Email = GetNormalizedEmail(email);
                 Address = address;
                 Phone = phone;
-                UserType = userType;
-                Money = money;
+                UserType = GetUserType(userType);
+                Money = GetMoney(money);
             }
         }
 
@@ -68,7 +68,7 @@ namespace Sat.Recruitment.Dtos.Dtos
             return errorMessage.ToString();
         }
 
-        public bool IsDuplicated(User user)
+        public bool IsDuplicated(UserDto user)
         {
             return Email == user.Email || Phone == user.Phone || (Name == user.Name && Email == user.Email);
         }
@@ -87,6 +87,27 @@ namespace Sat.Recruitment.Dtos.Dtos
             aux[0] = atIndex < 0 ? aux[0].Replace(".", "") : aux[0].Replace(".", "").Remove(atIndex);
 
             return string.Join("@", new string[] { aux[0], aux[1] });
+        }
+
+        public decimal GetMoney(string value)
+        {
+            if (!decimal.TryParse(value, out decimal parsedValue))
+            {
+                parsedValue = 0;
+            }
+
+            return parsedValue;
+        }
+
+        public UserTypes GetUserType(string value)
+        {
+            if (!Enum.TryParse<UserTypes>(value, out UserTypes type))
+            {
+                throw new UserTypeException();
+            }
+
+            return type;
+
         }
     }
 }
