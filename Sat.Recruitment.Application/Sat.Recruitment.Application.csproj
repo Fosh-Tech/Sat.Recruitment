@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sat.Recruitment.Data\Sat.Recruitment.Data.csproj" />
+    <ProjectReference Include="..\Sat.Recruitment.Dto\Sat.Recruitment.Dto.csproj" />
+    <ProjectReference Include="..\Sat.Recruitment.ExtensionMethods\Sat.Recruitment.ExtensionMethods.csproj" />
+  </ItemGroup>
+
+</Project>
