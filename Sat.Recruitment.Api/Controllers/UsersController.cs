@@ -12,7 +12,7 @@ namespace Sat.Recruitment.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public partial class UsersController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _service;
 
@@ -21,6 +21,11 @@ namespace Sat.Recruitment.Api.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("/create-user")]
         [ProducesResponseType(typeof(ResultDto), StatusCodes.Status200OK)]

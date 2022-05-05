@@ -26,9 +26,8 @@ namespace Sat.Recruitment.Application.Services
         /// <returns></returns>
         public async Task<ResultDto> CreateAsync(UserDto dto)
         {
-            #region Asign to Model
+            // Asign to Model
             var newUser = _mapper.Map<User>(dto);
-            #endregion
 
             #region Validation
             var result = ValidateUser(newUser);
@@ -37,13 +36,14 @@ namespace Sat.Recruitment.Application.Services
                 return result;
             #endregion
 
-            #region Adjust money of the user
-            newUser.Money = AdjustMoney(newUser);
-            #endregion
+            // Adjust money of the user
+            newUser.Money = GetFinalMoney(newUser);
 
+            // Get existing users
             var users = await _userReaderService.GetAllAsync();
-             
-            if(users.Any( u => 
+
+            #region Check if new user exists and creation
+            if (users.Any( u => 
                 u.Email == newUser.Email ||
                 u.Phone == newUser.Phone ||
                 (u.Name == newUser.Name && u.Address == newUser.Address)))
@@ -56,17 +56,18 @@ namespace Sat.Recruitment.Application.Services
                 result.IsSuccess = true;
                 result.Messages.Add("User Created");
             }
+            #endregion
 
             return result;
 
         }
 
         /// <summary>
-        /// Adjust the user's money
+        /// Get the final amount of money for the user
         /// </summary>
         /// <param name="user"></param>
-        /// <returns></returns>
-        private decimal AdjustMoney(User user)
+        /// <returns>The final money for the user</returns>
+        private decimal GetFinalMoney(User user)
         {
             decimal percentage;
 
@@ -98,25 +99,25 @@ namespace Sat.Recruitment.Application.Services
         /// Validation for user model
         /// </summary>
         /// <param name="user"></param>
-        /// <returns></returns>
+        /// <returns>IsSuccess as true if it's valid, false otherwise</returns>
         private ResultDto ValidateUser(User user)
         {
             var output = new ResultDto();
 
+            //Validate if Name is null
             if (string.IsNullOrEmpty(user.Name))
-                //Validate if Name is null
                 output.Messages.Add("The name is required");
+            //Validate if Email is null
             if (string.IsNullOrEmpty(user.Email))
-                //Validate if Email is null
                 output.Messages.Add("The email is required");
             // Validate if Email is valid
             if (!user.Email.IsMail())
                 output.Messages.Add("The email is not valid");
+            //Validate if Address is null
             if (string.IsNullOrEmpty(user.Address))
-                //Validate if Address is null
                 output.Messages.Add("The address is required");
+            //Validate if Phone is null
             if (string.IsNullOrEmpty(user.Phone))
-                //Validate if Phone is null
                 output.Messages.Add("The phone is required");
 
             // All messages at this method are errors, so i check if i have any messages
