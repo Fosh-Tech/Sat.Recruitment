@@ -4,22 +4,23 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Policy;
+
+using Sat.Recruitment.Api.Entities;
+using Sat.Recruitment.Api.Persistence;
 
 namespace Sat.Recruitment.Api.Controllers
 {
-    public class Result
-    {
-        public bool IsSuccess { get; set; }
-        public string Errors { get; set; }
-    }
+    //TODO extract every hardcoded message to a proper message manager.
 
     [ApiController]
     [Route("[controller]")]
     public partial class UsersController : ControllerBase
     {
+        private readonly List<User> _users = new List<User>(); //TODO move this to a better place when persistence is implemented.
 
-        private readonly List<User> _users = new List<User>();
         public UsersController()
         {
         }
@@ -28,175 +29,133 @@ namespace Sat.Recruitment.Api.Controllers
         [Route("/create-user")]
         public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType, string money)
         {
-            var errors = "";
-
-            ValidateErrors(name, email, address, phone, ref errors);
-
-            if (errors != null && errors != "")
-                return new Result()
-                {
-                    IsSuccess = false,
-                    Errors = errors
-                };
-
-            var newUser = new User
-            {
-                Name = name,
-                Email = email,
-                Address = address,
-                Phone = phone,
-                UserType = userType,
-                Money = decimal.Parse(money)
-            };
-
-            if (newUser.UserType == "Normal")
-            {
-                if (decimal.Parse(money) > 100)
-                {
-                    var percentage = Convert.ToDecimal(0.12);
-                    //If new user is normal and has more than USD100
-                    var gif = decimal.Parse(money) * percentage;
-                    newUser.Money = newUser.Money + gif;
-                }
-                if (decimal.Parse(money) < 100)
-                {
-                    if (decimal.Parse(money) > 10)
-                    {
-                        var percentage = Convert.ToDecimal(0.8);
-                        var gif = decimal.Parse(money) * percentage;
-                        newUser.Money = newUser.Money + gif;
-                    }
-                }
-            }
-            if (newUser.UserType == "SuperUser")
-            {
-                if (decimal.Parse(money) > 100)
-                {
-                    var percentage = Convert.ToDecimal(0.20);
-                    var gif = decimal.Parse(money) * percentage;
-                    newUser.Money = newUser.Money + gif;
-                }
-            }
-            if (newUser.UserType == "Premium")
-            {
-                if (decimal.Parse(money) > 100)
-                {
-                    var gif = decimal.Parse(money) * 2;
-                    newUser.Money = newUser.Money + gif;
-                }
-            }
+            //Validate the input data.
+            var errors = ValidateErrorsOnCreateUserInputs(name, email, address, phone, money);
+            if (!string.IsNullOrEmpty(errors))
+                return NonSucessfulResult(errors);
 
 
-            var reader = ReadUsersFromFile();
-
-            //Normalize email
-            var aux = newUser.Email.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
-
-            var atIndex = aux[0].IndexOf("+", StringComparison.Ordinal);
-
-            aux[0] = atIndex < 0 ? aux[0].Replace(".", "") : aux[0].Replace(".", "").Remove(atIndex);
-
-            newUser.Email = string.Join("@", new string[] { aux[0], aux[1] });
-
-            while (reader.Peek() >= 0)
-            {
-                var line = reader.ReadLineAsync().Result;
-                var user = new User
-                {
-                    Name = line.Split(',')[0].ToString(),
-                    Email = line.Split(',')[1].ToString(),
-                    Phone = line.Split(',')[2].ToString(),
-                    Address = line.Split(',')[3].ToString(),
-                    UserType = line.Split(',')[4].ToString(),
-                    Money = decimal.Parse(line.Split(',')[5].ToString()),
-                };
-                _users.Add(user);
-            }
-            reader.Close();
+            //Try to normalize the email.
             try
             {
-                var isDuplicated = false;
-                foreach (var user in _users)
-                {
-                    if (user.Email == newUser.Email
-                        ||
-                        user.Phone == newUser.Phone)
-                    {
-                        isDuplicated = true;
-                    }
-                    else if (user.Name == newUser.Name)
-                    {
-                        if (user.Address == newUser.Address)
-                        {
-                            isDuplicated = true;
-                            throw new Exception("User is duplicated");
-                        }
-
-                    }
-                }
-
-                if (!isDuplicated)
-                {
-                    Debug.WriteLine("User Created");
-
-                    return new Result()
-                    {
-                        IsSuccess = true,
-                        Errors = "User Created"
-                    };
-                }
-                else
-                {
-                    Debug.WriteLine("The user is duplicated");
-
-                    return new Result()
-                    {
-                        IsSuccess = false,
-                        Errors = "The user is duplicated"
-                    };
-                }
+                email = NormalizeEmailOnCreateUser(email);
             }
             catch
             {
-                Debug.WriteLine("The user is duplicated");
+                return NonSucessfulResult("The email cannot be normalized");
+            }
+            //TODO the phone should be also normalized.
+
+
+            //Create the new User instance.
+            var newUserParameters = new UsersCreationParameters()
+            {
+                Name = name, Email = email, Address = address, Phone = phone, UserType = userType, Money = decimal.Parse(money)
+            };
+            var newUser = UsersFactory.newUser(userType, newUserParameters);
+
+
+            //Read the entire users db to look for duplicate users.
+            //Check if the user is duplicated and return the result.
+            try
+            {
+                _users.AddRange(UsersReader.readUsersFromTextFile());
+
+                if (_users.Any(_ => IsUserDuplicated(_, newUser)))
+                {
+                    Debug.WriteLine("The user is duplicated");
+                    return NonSucessfulResult("The user is duplicated");
+                }
+
+                //Success!
                 return new Result()
                 {
-                    IsSuccess = false,
-                    Errors = "The user is duplicated"
+                    IsSuccess = true,
+                    Errors = "User Created" //TODO fix the concept. This is not an error so the message should not be in that field.
                 };
             }
-
-            return new Result()
+            catch
             {
-                IsSuccess = true,
-                Errors = "User Created"
-            };
+                Debug.WriteLine("Error reading the users text file");
+                return NonSucessfulResult("Error reading the users text file");
+            }
         }
 
-        //Validate errors
-        private void ValidateErrors(string name, string email, string address, string phone, ref string errors)
+        /// <summary>
+        /// Critera to compare if one given user is the duplicated of another given user.
+        /// </summary>
+        /// <param name="u1"></param>
+        /// <param name="u2"></param>
+        /// <returns></returns>
+        private static bool IsUserDuplicated(User u1, User u2)
         {
-            if (name == null)
-                //Validate if Name is null
-                errors = "The name is required";
-            if (email == null)
-                //Validate if Email is null
-                errors = errors + " The email is required";
-            if (address == null)
-                //Validate if Address is null
-                errors = errors + " The address is required";
-            if (phone == null)
-                //Validate if Phone is null
-                errors = errors + " The phone is required";
+            return u1.Email == u2.Email || u1.Phone == u2.Phone || (u1.Name == u2.Name && u1.Address == u2.Address);
         }
-    }
-    public class User
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string UserType { get; set; }
-        public decimal Money { get; set; }
+
+        /// <summary>
+        /// Validate the the inputs of the CreateUser method.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <param name="address"></param>
+        /// <param name="phone"></param>
+        /// <param name="money"></param>
+        /// <returns></returns>
+        private string ValidateErrorsOnCreateUserInputs(string name, string email, string address, string phone, string money)
+        {
+            List<string> errorsList = new List<string>();
+
+            //Validate if Name is null
+            if (name == null)
+                errorsList.Add("The name is required");
+
+            //Validate if Email is null
+            if (email == null)
+                errorsList.Add("The email is required");
+
+            //Validate if Address is null
+            if (address == null)
+                errorsList.Add("The address is required");
+
+            //Validate if Phone is null
+            if (phone == null)
+                errorsList.Add("The phone is required");
+
+            //Validate Money value
+            try
+            {
+                decimal.Parse(money);
+            }
+            catch
+            {
+                errorsList.Add("The money value is not parseable");
+            }
+
+            return String.Join(Environment.NewLine, errorsList);
+        }
+
+        /// <summary>
+        /// Normalize the email of the User to be created by the CreateUser method.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private static string NormalizeEmailOnCreateUser(string input)
+        {
+            var aux = input.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+            aux[0] = aux[0].Replace(".", "");
+            var atIndex = aux[0].IndexOf("+", StringComparison.Ordinal);
+            if (atIndex >= 0) aux[0] = aux[0].Remove(atIndex);
+            return string.Format("{0}@{1}", aux[0], aux[1]);
+        }
+
+        /// <summary>
+        /// Method which retuns a Result object with the IsSucess set as false and a given error message.
+        /// </summary>
+        /// <param name="errorText"></param>
+        /// <returns></returns>
+        private static Result NonSucessfulResult(string errorText)
+        {
+            return new Result() { IsSuccess = false, Errors = errorText };
+        }
     }
 }
