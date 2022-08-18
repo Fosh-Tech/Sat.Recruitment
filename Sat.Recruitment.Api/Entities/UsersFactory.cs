@@ -16,7 +16,14 @@ namespace Sat.Recruitment.Api.Entities
     /// <summary>
     /// Class which inherits all the fields of the User class.
     /// </summary>
-    public class UsersCreationParameters : User { }
+    public class UsersCreationParameters : User
+    {
+        //Shadow UserType field to allow set its value when instancing a new object.
+        new public string UserType {
+            get { return base.UserType; }
+            set { base.UserType = value; }
+        }
+    }
 
     /// <summary>
     /// Factory class which returns a new user given a type and some UsersCreationParameters.

@@ -116,14 +116,35 @@ namespace Sat.Recruitment.Test
             User premiumUser150 = UsersFactory.newUser(userParams);
 
 
-            Assert.Equal(10,  normalUser10.Money);
-            Assert.Equal(90,  normalUser50.Money); //TODO make sure this is right. It seems it should be 54.
+            Assert.Equal(10, normalUser10.Money);
+            Assert.Equal(90, normalUser50.Money); //TODO make sure this is right. It seems it should be 54.
             Assert.Equal(100, normalUser100.Money);
             Assert.Equal(224, normalUser200.Money);
             Assert.Equal(100, superUser100.Money);
             Assert.Equal(240, superUser200.Money);
             Assert.Equal(100, premiumUser100.Money);
             Assert.Equal(450, premiumUser150.Money);
+        }
+
+        [Fact]
+        public void CheckUserTypeInUserCreation()
+        {
+            var userParams = new UsersCreationParameters()
+            {
+                UserType = "Normal",
+                Money = 0
+            };
+            User normalUser = UsersFactory.newUser(userParams);
+
+            userParams.UserType = "SuperUser";
+            User superUser = UsersFactory.newUser(userParams);
+
+            userParams.UserType = "Premium";
+            User premiumUser = UsersFactory.newUser(userParams);
+
+            Assert.Equal("Normal", normalUser.UserType);
+            Assert.Equal("SuperUser", superUser.UserType);
+            Assert.Equal("Premium", premiumUser.UserType);
         }
     }
 }

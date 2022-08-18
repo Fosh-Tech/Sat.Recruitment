@@ -6,7 +6,7 @@
         public string Email { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public string UserType { get; set; }
+        public string UserType { get; protected set; }
         public decimal Money { get; set; }
 
         //Copy constructor to be used by the subclasses
