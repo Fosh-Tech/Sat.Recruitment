@@ -21,17 +21,13 @@ namespace Sat.Recruitment.Api.Controllers
         #region Actions
         [HttpPost]
         [Route("user")]
-        public async Task<IActionResult> CreateUser([Required] UserShared user) //TODO: [FromBody] agrego?
+        public async Task<IActionResult> CreateUser(UserShared user)
         {
-            //if (user == null)
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             await userService.CreateAsync(user);
             return Created($"api/user/{user.Name}", user); //HTTP201 Resource created
         }
 
-        //TODO: hacer el get?
+        //TODO: GET PUT DELETE
         #endregion
     }
 }

@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sat.Recruitment.Core.Models
 {
     public class UserShared
     {
-        public int Id { get; set; }
-        [BindRequired]
+        [Required]
         public string Name { get; set; }
-        [BindRequired]
+        [Required]
         public string Email { get; set; }
-        [BindRequired]
+        [Required]
         public string Address { get; set; }
-        [BindRequired]
+        [Required]
         public string Phone { get; set; }
-        [BindRequired]
+        [Required]
         public string Type { get; set; }
-        [BindRequired]
+        [Required]
         public decimal Money { get; set; }
     }
 }
