@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Sat.Recruitment.Api.Controllers
 {
     [ApiController]
-    [ApiVersion("v1.0.0")]
+    [ApiVersion("1.0")]
     [Route("api/user")]
     public partial class UserController : ControllerBase
     {
