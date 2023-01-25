@@ -8,7 +8,6 @@ namespace Sat.Recruitment.Business.Concrete
     {
         public void ApplyToUser(IUser user)
         {
-            //TODO: Parameters and logic.
             if (user.Money > 100)
             {
                 var percentage = Convert.ToDecimal(0.12);
@@ -17,14 +16,11 @@ namespace Sat.Recruitment.Business.Concrete
                 user.Money += gif;
             }
 
-            if (user.Money < 100)
+            if (user.Money < 100 && user.Money > 10)
             {
-                if (user.Money > 10)
-                {
-                    var percentage = Convert.ToDecimal(0.8);
-                    var gif = user.Money * percentage;
-                    user.Money += gif;
-                }
+                var percentage = Convert.ToDecimal(0.8);
+                var gif = user.Money * percentage;
+                user.Money += gif;
             }
         }
     }

@@ -20,10 +20,10 @@ namespace Sat.Recruitment.Api.Controllers
         #region Actions
         [HttpPost]
         [Route("user")]
-        public async Task<IActionResult> CreateUser(UserShared user)
+        public async Task<IActionResult> CreateUser(UserShared userShared)
         {
-            await userService.CreateAsync(user);
-            return Created($"api/user/{user.Name}", user); //HTTP201 Resource created
+            await userService.CreateAsync(userShared);
+            return Created($"api/user/{userShared.Name}", userShared); //HTTP201 Resource created
         }
 
         //TODO: GET PUT DELETE

@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Sat.Recruitment.Data;
 using Sat.Recruitment.Service;
 using Sat.Recruitment.Service.Extensions;
 using System.Security.Principal;
@@ -25,12 +27,20 @@ namespace Sat.Recruitment.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            #region ConnString
+            services.AddDbContext<SatRecruitmentContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("SatRecruitmentDB"))
+            );
+            #endregion
+
             services.AddSwaggerGen();
 
             #region "API versioning"
             //API versioning service
             services.AddApiVersioning(
-                o => {
+                o =>
+                {
                     o.AssumeDefaultVersionWhenUnspecified = true;
                     o.ReportApiVersions = true;
                     o.DefaultApiVersion = new ApiVersion(1, 0);

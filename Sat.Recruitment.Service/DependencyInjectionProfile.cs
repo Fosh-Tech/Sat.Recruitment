@@ -3,6 +3,7 @@ using Sat.Recruitment.Business.Concrete;
 using Sat.Recruitment.Business.Interfaces;
 using Sat.Recruitment.Business.Services;
 using Sat.Recruitment.Core.Services;
+using Sat.Recruitment.Data.Repositories;
 using Sat.Recruitment.Service.Services;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Sat.Recruitment.Service
     {
         public DependencyInjectionProfile(IServiceCollection services)
         {
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUserService, UserService>();
 
             //Friendly DI for Gifts
