@@ -71,7 +71,6 @@ namespace Sat.Recruitment.Api
             });
             #endregion
 
-            //TODO: AddMvcCore or AddMvc()
             #region MVC Service
             //services.AddMvc();
             services.AddMvcCore(option => option.EnableEndpointRouting = false);

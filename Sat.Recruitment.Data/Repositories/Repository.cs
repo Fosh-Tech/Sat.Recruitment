@@ -49,7 +49,7 @@ namespace Sat.Recruitment.Data.Repositories
         {
             Debug.WriteLine("User Created");
             //...
-            File.AppendAllText(@"..\Sat.Recruitment.Data\Files\Users.txt", Environment.NewLine + entity.ToString());
+            await File.AppendAllTextAsync(@"..\Sat.Recruitment.Data\Files\Users.txt", Environment.NewLine + entity.ToString());
 
         }
 
