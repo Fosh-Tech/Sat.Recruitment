@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace Sat.Recruitment.Business.Concrete
 {
-    public class DIFriendlyGiftFactory : IGiftFactory
+    public class GiftFactory : IGiftFactory
     {
         public readonly Dictionary<string, Func<IGift>> _factories;
 
-        public DIFriendlyGiftFactory(Dictionary<string, Func<IGift>> factories)
+        public GiftFactory(Dictionary<string, Func<IGift>> factories)
         {
             _factories = factories;
         }

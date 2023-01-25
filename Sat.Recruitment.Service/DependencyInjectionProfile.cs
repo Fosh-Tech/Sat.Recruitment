@@ -28,7 +28,7 @@ namespace Sat.Recruitment.Service
                     ["premium"] = () => ctx.GetService<GiftPremium>(),
                     ["superuser"] = () => ctx.GetService<GiftSuper>()
                 };
-                return new DIFriendlyGiftFactory(factories);
+                return new GiftFactory(factories);
             });
         }
     }
