@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Concrete\UserFactory.cs" />
+    <Compile Remove="Concrete\UserNormal.cs" />
+    <Compile Remove="Concrete\UserPremium.cs" />
+    <Compile Remove="Concrete\UserSuper.cs" />
+    <Compile Remove="Interfaces\IUserFactory.cs" />
+  </ItemGroup>
+
+</Project>

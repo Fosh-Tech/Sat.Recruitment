@@ -1,4 +1,9 @@
-﻿using Sat.Recruitment.Core.Models;
+﻿using AutoMapper;
+using Sat.Recruitment.Business.Concrete;
+using Sat.Recruitment.Business.Interfaces;
+using Sat.Recruitment.Core.Extensions;
+using Sat.Recruitment.Core.Models;
+using Sat.Recruitment.Core.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -6,67 +11,46 @@ namespace Sat.Recruitment.Service.Services
 {
     public class UserService : IUserService
     {
-        public Task CreateAsync(UserShared user)
+        readonly IGiftFactory friendlyGiftFactory;
+        readonly IMapper mapper;
+        public UserService(IGiftFactory friendlyGiftFactory, IMapper mapper)
         {
-            switch (user.Type)
-            {
-                case "Normal":
-                    CreateNormal(user);
-                    break;
-                case "SuperUser":
-                    CreateSuperUser(user);
-                    break;
-                case "Premium":
-                    CreatePremium(user);
-                    break;
-                //default:
-                //    return "Error en User Type";
-            }
-            //luego lee todos los usuarios del archivo y se fija si no está duplicado. Si no lo está, lo crea...
-
-            return Task.CompletedTask;
+            this.friendlyGiftFactory = friendlyGiftFactory;
+            this.mapper = mapper;
         }
 
-        private void CreateNormal(UserShared user)
+        public async Task CreateAsync(UserShared userShared)
         {
-            if (user.Money > 100)
-            {
-                var percentage = Convert.ToDecimal(0.12);
-                //If new user is normal and has more than USD100
-                var gif = user.Money * percentage;
-                user.Money += gif;
-            }
+            Validate(userShared);
+            var user = mapper.Map<User>(userShared);
 
-            if (user.Money < 100)
-            {
-                if (user.Money > 10)
-                {
-                    var percentage = Convert.ToDecimal(0.8);
-                    var gif = user.Money * percentage;
-                    user.Money += gif;
-                }
-            }
+            //var entity = await userRepository.GetOneAsync(x => x.Mail == user.Email || x.Phone == user.Phone || (x.Name == user.Name && x.Address == user.Address));
+            //if (entity == null)
+            //    throw new InvalidOperationException($"TheUser {user.Email} is alredy exist");
+
+            var gift = friendlyGiftFactory.Create(user.Type.ToLower());
+            gift.ApplyToUser(user);
+
+            //try
+            //{
+            //    await userRepository.InsertAsync(user);
+            //}
+            //catch (Exception e)
+            //{
+            //    throw e;
+            //}
         }
 
-        private void CreateSuperUser(UserShared user)
+        private void Validate(UserShared user)
         {
-            if (user.Money > 100)
-            {
-                var percentage = Convert.ToDecimal(0.20);
-                var gif = user.Money * percentage;
-                user.Money += gif;
-            }
+            if (user == null)
+                throw new ArgumentNullException(nameof(User));
+            if (string.IsNullOrEmpty(user.Email))
+                throw new ArgumentNullException(string.Format(@"{0} -> {1}",nameof(User), nameof(User.Email)));
+            if (!user.Email.IsMailAdress())
+                throw new ArgumentNullException(string.Format(@"{0} -> {1}",nameof(User), nameof(User.Email)));
         }
 
-        private void CreatePremium(UserShared user)
-        {
-            if (user.Money > 100)
-            {
-                var gif = user.Money * 2;
-                user.Money += gif;
-            }
-        }
-        
         //FRUTA DEL DUPLICADO (normaliza el email no sé xq)
         //var reader = ReadUsersFromFile();
 

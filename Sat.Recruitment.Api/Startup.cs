@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Sat.Recruitment.Service;
 using Sat.Recruitment.Service.Extensions;
 using System.Security.Principal;
 
@@ -66,6 +67,10 @@ namespace Sat.Recruitment.Api
             services.AddMvcCore(option => option.EnableEndpointRouting = false);
             #endregion
 
+            #region AutoMapper
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+            #endregion
+
             #region "DI code"
             //Api
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -78,7 +83,7 @@ namespace Sat.Recruitment.Api
             //Swagger API documentation
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Support API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sat Recruitment Api", Version = "v1" });
             });
             #endregion
         }

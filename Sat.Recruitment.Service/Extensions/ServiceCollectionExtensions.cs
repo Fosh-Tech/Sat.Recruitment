@@ -9,7 +9,7 @@ namespace Sat.Recruitment.Service.Extensions
     {
         public static void AddServiceDependencyInjection(this IServiceCollection services)
         { 
-            new ServiceDependencyInjectionProfile(services);
+            new DependencyInjectionProfile(services);
         }
     }
 }

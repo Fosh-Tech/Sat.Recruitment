@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sat.Recruitment.Core.Models;
-using Sat.Recruitment.Service.Services;
-using System.ComponentModel.DataAnnotations;
+using Sat.Recruitment.Core.Services;
 using System.Threading.Tasks;
 
 namespace Sat.Recruitment.Api.Controllers
@@ -11,7 +10,7 @@ namespace Sat.Recruitment.Api.Controllers
     [Route("api/user")]
     public partial class UserController : ControllerBase
     {
-        private readonly IUserService userService;
+        readonly IUserService userService;
 
         public UserController(IUserService userService)
         {

@@ -1,7 +1,8 @@
-﻿using Sat.Recruitment.Core.Models;
+﻿using Sat.Recruitment.Business.Interfaces;
+using Sat.Recruitment.Core.Models;
 using System.Threading.Tasks;
 
-namespace Sat.Recruitment.Service.Services
+namespace Sat.Recruitment.Core.Services
 {
     public interface IUserService
     {
