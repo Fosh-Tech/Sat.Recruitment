@@ -5,15 +5,21 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Api", "Sat.Recruitment.Api\Sat.Recruitment.Api.csproj", "{1F342EA2-E7B1-4E53-AB93-9C62288D3FB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Test", "Sat.Recruitment.Test\Sat.Recruitment.Test.csproj", "{42E696E9-2672-4B91-AD96-353A69F7219C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Service.Test", "Sat.Recruitment.Test\Sat.Recruitment.Service.Test.csproj", "{42E696E9-2672-4B91-AD96-353A69F7219C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Service", "Sat.Recruitment.Service\Sat.Recruitment.Service.csproj", "{36E15D71-4A83-496B-BDB9-D953075D6760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Service", "Sat.Recruitment.Service\Sat.Recruitment.Service.csproj", "{36E15D71-4A83-496B-BDB9-D953075D6760}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Core", "Sat.Recruitment.Core\Sat.Recruitment.Core.csproj", "{CCDDA5DC-3B4C-489F-9D35-7BBE0D276FE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Core", "Sat.Recruitment.Core\Sat.Recruitment.Core.csproj", "{CCDDA5DC-3B4C-489F-9D35-7BBE0D276FE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Data", "Sat.Recruitment.Data\Sat.Recruitment.Data.csproj", "{321ED547-E862-4E5D-8DEA-47E47673C0DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Data", "Sat.Recruitment.Data\Sat.Recruitment.Data.csproj", "{321ED547-E862-4E5D-8DEA-47E47673C0DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Business", "Sat.Recruitment.Business\Sat.Recruitment.Business.csproj", "{7671FC73-62BA-40B8-B472-718F807D21A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Business", "Sat.Recruitment.Business\Sat.Recruitment.Business.csproj", "{7671FC73-62BA-40B8-B472-718F807D21A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Business.Test", "Sat.Recruitment.Business.Test\Sat.Recruitment.Business.Test.csproj", "{F27241C3-09A6-49E3-A383-D70D2CF957DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8D608EEF-CFA5-4665-9691-8933B0A5812E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Api.Test", "Sat.Recruitment.Api.Test\Sat.Recruitment.Api.Test.csproj", "{63B6F09F-6A73-4650-927D-8054FB00B76E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +51,22 @@ Global
 		{7671FC73-62BA-40B8-B472-718F807D21A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7671FC73-62BA-40B8-B472-718F807D21A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7671FC73-62BA-40B8-B472-718F807D21A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F27241C3-09A6-49E3-A383-D70D2CF957DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27241C3-09A6-49E3-A383-D70D2CF957DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27241C3-09A6-49E3-A383-D70D2CF957DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27241C3-09A6-49E3-A383-D70D2CF957DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B6F09F-6A73-4650-927D-8054FB00B76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B6F09F-6A73-4650-927D-8054FB00B76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B6F09F-6A73-4650-927D-8054FB00B76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B6F09F-6A73-4650-927D-8054FB00B76E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{42E696E9-2672-4B91-AD96-353A69F7219C} = {8D608EEF-CFA5-4665-9691-8933B0A5812E}
+		{F27241C3-09A6-49E3-A383-D70D2CF957DB} = {8D608EEF-CFA5-4665-9691-8933B0A5812E}
+		{63B6F09F-6A73-4650-927D-8054FB00B76E} = {8D608EEF-CFA5-4665-9691-8933B0A5812E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2A05765-05B9-484D-8D3D-506849EB716F}
