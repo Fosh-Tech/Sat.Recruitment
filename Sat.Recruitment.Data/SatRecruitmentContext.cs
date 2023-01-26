@@ -25,7 +25,7 @@ namespace Sat.Recruitment.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning TODO: Remove this...
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-RSGPCVI\\SQLEXPRESS;Initial Catalog=Sat.Recruitment;persist security info=True;Integrated Security=SSPI;");
+                //optionsBuilder.UseSqlServer("Data Source=DESKTOP-RSGPCVI\\SQLEXPRESS;Initial Catalog=Sat.Recruitment;persist security info=True;Integrated Security=SSPI;");
             }
         }
 
