@@ -11,8 +11,8 @@ namespace Sat.Recruitment.Business.Concrete
             if (user.Money > 100)
             {
                 var percentage = Convert.ToDecimal(0.20);
-                var gif = user.Money * percentage;
-                user.Money += gif;
+                var gift = user.Money * percentage;
+                user.Money += gift;
             }
         }
     }

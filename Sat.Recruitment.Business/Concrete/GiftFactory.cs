@@ -7,9 +7,9 @@ namespace Sat.Recruitment.Business.Concrete
 {
     public class GiftFactory : IGiftFactory
     {
-        public readonly Dictionary<string, Func<IGift>> _factories;
+        public readonly IDictionary<string, Func<IGift>> _factories;
 
-        public GiftFactory(Dictionary<string, Func<IGift>> factories)
+        public GiftFactory(IDictionary<string, Func<IGift>> factories)
         {
             _factories = factories;
         }

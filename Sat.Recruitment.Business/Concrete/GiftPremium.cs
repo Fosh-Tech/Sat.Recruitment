@@ -9,8 +9,8 @@ namespace Sat.Recruitment.Business.Concrete
         {
             if (user.Money > 100)
             {
-                var gif = user.Money * 2;
-                user.Money += gif;
+                var gift = user.Money * 2;
+                user.Money += gift;
             }
         }
     }
