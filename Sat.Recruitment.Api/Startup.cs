@@ -12,6 +12,7 @@ using Sat.Recruitment.Service;
 using Sat.Recruitment.Service.Extensions;
 using System.Security.Principal;
 
+
 namespace Sat.Recruitment.Api
 {
     public class Startup
@@ -28,7 +29,7 @@ namespace Sat.Recruitment.Api
         {
             services.AddControllers();
 
-            #region ConnString
+            #region DBContext
             services.AddDbContext<SatRecruitmentContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SatRecruitmentDB"))
             );
@@ -131,6 +132,12 @@ namespace Sat.Recruitment.Api
                     );
                 endpoints.MapControllers();
             });
+
+            #region Migrations Execute
+            using var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<SatRecruitmentContext>();
+            context.Database.Migrate();
+            #endregion
         }
     }
 }
