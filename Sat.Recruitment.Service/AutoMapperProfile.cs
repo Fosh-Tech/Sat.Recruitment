@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Sat.Recruitment.Business.Concrete;
-using Sat.Recruitment.Core.Models;
 using Sat.Recruitment.Data.Context;
 
 namespace Sat.Recruitment.Service
@@ -9,7 +8,6 @@ namespace Sat.Recruitment.Service
     {
         public AutoMapperProfile()
         {
-            CreateMap<UserShared, UserBL>().ReverseMap();
             CreateMap<UserBL, User>().ReverseMap();
         }
     }

@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
 using Moq;
+using Sat.Recruitment.Api.DTOs.User;
 using Sat.Recruitment.Business.Concrete;
 using Sat.Recruitment.Business.Interfaces;
-using Sat.Recruitment.Business.Services;
-using Sat.Recruitment.Core.Models;
 using Sat.Recruitment.Data.Context;
 using Sat.Recruitment.Data.Repositories;
 using Sat.Recruitment.Service.Services;
-using System;
 using System.Collections.Generic;
-using System.Security.Policy;
-using System.Text;
 
 namespace Sat.Recruitment.Service.Test.Fakes
 {
@@ -34,12 +29,11 @@ namespace Sat.Recruitment.Service.Test.Fakes
             UserService = new UserService(giftFactoryMock.Object, mapperMock.Object, unitOfWorkMock.Object);
         }
 
-
-        public List<UserShared> GetUsers()
+        public List<CreateUserRequest> GetCreateUserRequestList()
         {
-            return new List<UserShared>()
+            return new List<CreateUserRequest>()
             {
-                new UserShared()
+                new CreateUserRequest()
                 {
                     Name = "Mike", 
                     Email = "mike@gmail.com", 
@@ -48,7 +42,7 @@ namespace Sat.Recruitment.Service.Test.Fakes
                     Type = "Normal", 
                     Money = 124
                 },
-                new UserShared()
+                new CreateUserRequest()
                 {
                     Name = "Agustina",
                     Email = "Agustina@gmail.com",
@@ -57,7 +51,7 @@ namespace Sat.Recruitment.Service.Test.Fakes
                     Type = "Normal", 
                     Money = 124
                 },
-                new UserShared()
+                new CreateUserRequest()
                 {
                     Name = "Messi",
                     Email = "Messi@gmail.com",
@@ -69,12 +63,12 @@ namespace Sat.Recruitment.Service.Test.Fakes
             };
         }
 
-        public UserShared GetEmptyUser()
-            => new UserShared();
+        public UserBL GetEmptyUser()
+            => new UserBL();
 
-        public UserShared GetUserShared()
+        public CreateUserRequest GetCreateUserRequest()
         {
-            return new UserShared()
+            return new CreateUserRequest()
             {
                 Name = "Mike",
                 Email = "mike@gmail.com",

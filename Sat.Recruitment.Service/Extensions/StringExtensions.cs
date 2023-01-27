@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-using System.Text;
-
-namespace Sat.Recruitment.Core.Extensions
+﻿namespace Sat.Recruitment.Service.Extensions
 {
     public static class StringExtensions
     {

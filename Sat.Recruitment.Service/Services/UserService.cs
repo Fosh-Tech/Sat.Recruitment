@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Sat.Recruitment.Business.Concrete;
 using Sat.Recruitment.Business.Interfaces;
-using Sat.Recruitment.Core.Extensions;
-using Sat.Recruitment.Core.Models;
-using Sat.Recruitment.Core.Services;
 using Sat.Recruitment.Data.Context;
 using Sat.Recruitment.Data.Repositories;
+using Sat.Recruitment.Service.Extensions;
 using System;
 using System.Threading.Tasks;
 
@@ -24,11 +22,9 @@ namespace Sat.Recruitment.Service.Services
             unitOfWork = _unitOfWork;
         }
 
-        public async Task CreateAsync(UserShared userShared)
+        public async Task CreateAsync(UserBL userBL)
         {
-            Validate(userShared);
-
-            var userBL = mapper.Map<UserBL>(userShared);
+            Validate(userBL);
 
             userRepository = unitOfWork.GetRepository<User>();
             var entity = await userRepository.GetOneAsync(x => x.Email == userBL.Email || x.Phone == userBL.Phone || (x.Name == userBL.Name && x.Address == userBL.Address));
@@ -52,14 +48,14 @@ namespace Sat.Recruitment.Service.Services
             }
         }
 
-        private void Validate(UserShared user)
+        private void Validate(UserBL user)
         {
             if (user == null)
-                throw new ArgumentNullException(nameof(UserShared));
+                throw new ArgumentNullException(nameof(UserBL));
             if (string.IsNullOrEmpty(user.Email))
-                throw new ArgumentNullException(string.Format(@"{0} -> {1}", nameof(UserShared), nameof(UserShared.Email)));
+                throw new ArgumentNullException(string.Format(@"{0} -> {1}", nameof(UserBL), nameof(UserBL.Email)));
             if (!user.Email.IsMailAdress())
-                throw new FormatException(string.Format(@"{0} -> {1}", nameof(UserShared), nameof(UserShared.Email)));
+                throw new FormatException(string.Format(@"{0} -> {1}", nameof(UserBL), nameof(UserBL.Email)));
         }
     }
 }

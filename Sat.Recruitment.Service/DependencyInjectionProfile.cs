@@ -2,7 +2,6 @@
 using Sat.Recruitment.Business.Concrete;
 using Sat.Recruitment.Business.Interfaces;
 using Sat.Recruitment.Business.Services;
-using Sat.Recruitment.Core.Services;
 using Sat.Recruitment.Data.Repositories;
 using Sat.Recruitment.Service.Services;
 using System;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sat.Recruitment.Core.Models;
-using Sat.Recruitment.Core.Services;
+using Sat.Recruitment.Api.DTOs.User;
+using Sat.Recruitment.Service.Services;
 using System.Threading.Tasks;
 
 namespace Sat.Recruitment.Api.Controllers
@@ -12,18 +12,19 @@ namespace Sat.Recruitment.Api.Controllers
     {
         readonly IUserService userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService _userService)
         {
-            this.userService = userService;
+            userService = _userService;
         }
 
         #region Actions
         [HttpPost]
         [Route("user")]
-        public async Task<IActionResult> CreateUser(UserShared userShared)
+        public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
         {
-            await userService.CreateAsync(userShared);
-            return Created($"api/user/{userShared.Name}", userShared); //HTTP201 Resource created
+            var userBL = createUserRequest.ToDomain(createUserRequest);
+            await userService.CreateAsync(userBL);
+            return Created($"api/user/{userBL.Name}", userBL); //HTTP201 Resource created
         }
 
         //TODO: GET PUT DELETE
