@@ -1,8 +1,10 @@
 ﻿using Moq;
 using Sat.Recruitment.Business.Concrete;
+using Sat.Recruitment.Business.Exceptions;
 using Sat.Recruitment.Data.Context;
 using Sat.Recruitment.Service.Test.Fakes;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
@@ -19,75 +21,25 @@ namespace Sat.Recruitment.Test.Users
         }
 
         [Fact]
-        public async Task CreateUser_UserNull_ThrowException()
+        public async Task CreateUserAsync_DuplicateUser_ThrowException()
         {
-            UserBL userFake = null;
-            var exMsgExpected = "Value cannot be null. (Parameter 'UserBL')";
+            UserBL newUserBL = _fakes.GetUserBL();
+            User newUserDAL = _fakes.GetUser();
+            string exCodeExpected = "DUPLICATE_ENTITY_ERROR";
+            string exMessageExpected = $"The User {newUserBL.Name} is already exist.";
 
-            Func<Task> action = async () =>
-            {
-                await _fakes.UserService.CreateAsync(userFake);
-            };
-
-            var ex = await Assert.ThrowsAsync<ArgumentNullException>(action);
-
-            Assert.IsType<ArgumentNullException>(ex);
-            Assert.Equal(exMsgExpected, ex.Message);
-        }
-
-        [Fact]
-        public async Task CreateUser_UserEmailNullOrEmpty_ThrowException()
-        {
-            UserBL userFake = new UserBL();
-            var exMsgExpected = "Value cannot be null. (Parameter 'UserBL -> Email')";
-
-            Func<Task> action = async () =>
-            {
-                await _fakes.UserService.CreateAsync(userFake);
-            };
-
-            var ex = await Assert.ThrowsAsync<ArgumentNullException>(action);
-
-            Assert.IsType<ArgumentNullException>(ex);
-            Assert.Equal(exMsgExpected, ex.Message);
-        }
-
-        [Fact]
-        public async Task CreateUser_UserEmailInvalidFormat_ThrowException()
-        {
-            var userFake = _fakes.GetUserBL();
-            userFake.Email = "formaterror";
-            var exMsgExpected = "The specified string is not in the form required for an e-mail address.";
-
-            Func<Task> action = async () =>
-            {
-                await _fakes.UserService.CreateAsync(userFake);
-            };
-
-            var ex = await Assert.ThrowsAsync<FormatException>(action);
-
-            Assert.IsType<FormatException>(ex);
-            Assert.Equal(exMsgExpected, ex.Message);
-        }
-
-        [Fact]
-        public async Task CreateUser_UserEmailExits_ThrowException()
-        {
-            var userFake = _fakes.GetUserBL();
-            string exMsgExpected = $"The User {userFake.Name} is alredy exist";
-            
             _fakes.unitOfWorkMock.Setup(uow => uow.GetRepository<User>()).Returns(_fakes.userRepositoryMock.Object);
-            _fakes.userRepositoryMock.Setup(ur => ur.GetOneAsync(It.IsAny<Expression<Func<User, bool>>>(),null)).ReturnsAsync(new User());
+            _fakes.userRepositoryMock.Setup(ur => ur.GetOneAsync(It.IsAny<Expression<Func<User, bool>>>(), null)).ReturnsAsync(newUserDAL);
 
             Func<Task> action = async () =>
             {
-                await _fakes.UserService.CreateAsync(userFake);
+                await _fakes.UserService.CreateAsync(newUserBL);
             };
+            var ex = await Assert.ThrowsAsync<DuplicateEntityException>(action);
 
-            var ex = await Assert.ThrowsAsync<InvalidOperationException>(action);
-
-            Assert.IsType<InvalidOperationException>(ex);
-            Assert.Equal(exMsgExpected, ex.Message);
+            Assert.IsType<DuplicateEntityException>(ex);
+            Assert.Equal(exMessageExpected, ex.Message);
+            Assert.Equal(exCodeExpected, ex.Code);
         }
     }
 }

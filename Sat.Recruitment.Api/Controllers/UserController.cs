@@ -20,15 +20,15 @@ namespace Sat.Recruitment.Api.Controllers
         #region Actions
         [HttpPost]
         [Route("user")]
-        public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
+        public async Task<ActionResult<CreateUserResponse>> CreateUser(CreateUserRequest createUserRequest)
         {
             var userBL = createUserRequest.ToDomain(createUserRequest);
 
             var newUser = await userService.CreateAsync(userBL);
 
-            //create GetUserResponse with GET... then return CreatedAtRoute(newUser); --> TODO: With GET route
-
-            return Created($"api/user/{newUser.Id}", newUser); //HTTP201 Resource created
+            var response = CreateUserResponse.FromContext(newUser);
+            
+            return CreatedAtRoute($"api/user/{newUser.Id}", response);
         }
 
         //TODO: GET PUT DELETE
