@@ -12,7 +12,7 @@ namespace Sat.Recruitment.Data.Repositories
     {
         Task<TEntity> GetByIdAsync(object id);
         Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
-        Task InsertAsync(TEntity entity, bool saveChanges = true);
+        Task<TEntity> InsertAsync(TEntity entity, bool saveChanges = true);
         Task UpdateAsync(TEntity entity, bool saveChanges = true);
         Task DeleteAsync(object[] id, bool saveChanges = true);
         Task DeleteAsync(TEntity entity, bool saveChanges = true);

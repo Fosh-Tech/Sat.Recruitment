@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Sat.Recruitment.Business.Concrete;
+using Sat.Recruitment.Business.Exceptions;
 using Sat.Recruitment.Business.Interfaces;
 using Sat.Recruitment.Data.Context;
 using Sat.Recruitment.Data.Repositories;
@@ -22,25 +23,27 @@ namespace Sat.Recruitment.Service.Services
             unitOfWork = _unitOfWork;
         }
 
-        public async Task CreateAsync(UserBL userBL)
+        public async Task<User> CreateAsync(UserBL userBL)
         {
-            Validate(userBL);
-
             userRepository = unitOfWork.GetRepository<User>();
-            var entity = await userRepository.GetOneAsync(x => x.Email == userBL.Email || x.Phone == userBL.Phone || (x.Name == userBL.Name && x.Address == userBL.Address));
-            if (entity != null)
-                throw new InvalidOperationException($"The User {userBL.Name} is alredy exist");
+            
+            var entity = await userRepository.GetOneAsync(x => x.Email == userBL.Email || 
+                x.Phone == userBL.Phone || 
+                (x.Name == userBL.Name && x.Address == userBL.Address));
+
+            ValidateDuplicate(entity);
 
             var gift = giftFactory.Create(userBL.Type.ToLower());
             gift.ApplyToUser(userBL);
 
-            var userEntity = mapper.Map<User>(userBL);
+            var userDAL = mapper.Map<User>(userBL);
             try
             {
-                await userRepository.InsertAsync(userEntity);
-
+                var newUserDAL = await userRepository.InsertAsync(userDAL);
 #warning "TXT MODE..."
-                await userRepository.InsertTXTAsync(userEntity);
+                await userRepository.InsertTXTAsync(userDAL);
+
+                return newUserDAL;
             }
             catch (Exception e)
             {
@@ -48,14 +51,20 @@ namespace Sat.Recruitment.Service.Services
             }
         }
 
-        private void Validate(UserBL user)
+        private void ValidateDuplicate(User entity)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(UserBL));
-            if (string.IsNullOrEmpty(user.Email))
-                throw new ArgumentNullException(string.Format(@"{0} -> {1}", nameof(UserBL), nameof(UserBL.Email)));
-            if (!user.Email.IsMailAdress())
-                throw new FormatException(string.Format(@"{0} -> {1}", nameof(UserBL), nameof(UserBL.Email)));
+            if (entity != null)
+                throw new DuplicateEntityException($"The User {entity.Name} is alredy exist");
         }
+        
+        //private void Validate(UserBL user)
+        //{
+        //    if (user == null)
+        //        throw new ArgumentNullException(nameof(UserBL));
+        //    if (string.IsNullOrEmpty(user.Email))
+        //        throw new ArgumentNullException(string.Format(@"{0} -> {1}", nameof(UserBL), nameof(UserBL.Email)));
+        //    if (!user.Email.IsMailAdress())
+        //        throw new FormatException(string.Format(@"{0} -> {1}", nameof(UserBL), nameof(UserBL.Email)));
+        //}
     }
 }

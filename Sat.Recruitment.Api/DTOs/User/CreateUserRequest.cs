@@ -1,5 +1,5 @@
-﻿using Sat.Recruitment.Business.Concrete;
-using System;
+﻿using Sat.Recruitment.Api.Filters;
+using Sat.Recruitment.Business.Concrete;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sat.Recruitment.Api.DTOs.User
@@ -9,7 +9,7 @@ namespace Sat.Recruitment.Api.DTOs.User
         [Required]
         public string Name { get; set; }
         [Required]
-        [EmailAddress]
+        [EmailCustomAttribute("The email is not in the correct format")]
         public string Email { get; set; }
         [Required]
         public string Address { get; set; }

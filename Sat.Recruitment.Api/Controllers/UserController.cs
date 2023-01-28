@@ -23,8 +23,12 @@ namespace Sat.Recruitment.Api.Controllers
         public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
         {
             var userBL = createUserRequest.ToDomain(createUserRequest);
-            await userService.CreateAsync(userBL);
-            return Created($"api/user/{userBL.Name}", userBL); //HTTP201 Resource created
+
+            var newUser = await userService.CreateAsync(userBL);
+
+            //create GetUserResponse with GET... then return CreatedAtRoute(newUser); --> TODO: With GET route
+
+            return Created($"api/user/{newUser.Id}", newUser); //HTTP201 Resource created
         }
 
         //TODO: GET PUT DELETE

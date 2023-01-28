@@ -6,6 +6,6 @@ namespace Sat.Recruitment.Service.Services
 {
     public interface IUserService
     {
-        Task CreateAsync(UserBL user);
+        Task<User> CreateAsync(UserBL user);
     }
 }

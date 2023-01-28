@@ -37,11 +37,14 @@ namespace Sat.Recruitment.Data.Repositories
             return entity;
         }
 
-        public async Task InsertAsync(TEntity entity, bool saveChanges = true)
+        public async Task<TEntity> InsertAsync(TEntity entity, bool saveChanges = true)
         {
-            await _dbSet.AddAsync(entity);
+            var newEntity = await _dbSet.AddAsync(entity);
+            
             if (saveChanges)
                 await _unitOfWork.SaveAsync();
+
+            return newEntity.Entity;
         }
 
 #warning "TXT MODE..."

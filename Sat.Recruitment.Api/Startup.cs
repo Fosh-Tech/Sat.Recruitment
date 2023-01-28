@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Sat.Recruitment.Api.Middlewares;
 using Sat.Recruitment.Data;
 using Sat.Recruitment.Service;
 using Sat.Recruitment.Service.Extensions;
 using System.Security.Principal;
-
 
 namespace Sat.Recruitment.Api
 {
@@ -73,7 +73,6 @@ namespace Sat.Recruitment.Api
             #endregion
 
             #region MVC Service
-            //services.AddMvc();
             services.AddMvcCore(option => option.EnableEndpointRouting = false);
             #endregion
 
@@ -107,10 +106,6 @@ namespace Sat.Recruitment.Api
             //    app.UseDeveloperExceptionPage();
             //}
 
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseCors("CorsPolicy-public");
-
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -122,8 +117,17 @@ namespace Sat.Recruitment.Api
                 c.DisplayRequestDuration();
             });
 
-            app.UseAuthorization();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
+            #region Migrations Execute
+            using var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<SatRecruitmentContext>();
+            context.Database.Migrate();
+            #endregion
+            app.UseHttpsRedirection();
+            app.UseAuthorization();
+            app.UseRouting();
+            app.UseCors("CorsPolicy-public");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -132,12 +136,6 @@ namespace Sat.Recruitment.Api
                     );
                 endpoints.MapControllers();
             });
-
-            #region Migrations Execute
-            using var scope = app.ApplicationServices.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<SatRecruitmentContext>();
-            context.Database.Migrate();
-            #endregion
         }
     }
 }
