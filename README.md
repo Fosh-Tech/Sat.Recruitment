@@ -64,4 +64,4 @@ mensaje en formato json.
 La clase `Result` es evidente que no es una buena práctica cuando `IsSuccess=false` y el código
 HTTP devuelto es OK 200.   
 Lo que sí puedo hacer sin violar el requisito de refactorizar es corregir los códigos
-de estado HTTP devueltos para tengan significado (200 OK, 400 Bad Request).
+de estado HTTP devueltos para que tengan significado (200 OK, 400 Bad Request).
