@@ -1,57 +1,65 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Sat.Recruitment.Application;
+using Sat.Recruitment.Infrastructure;
+using Sat.Recruitment.Shared;
+using Sat.Recruitment.Shared.Configuration.Extensions;
+using Sat.Recruitment.Shared.Models.Configuration.Implementations;
 
 namespace Sat.Recruitment.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
+        /// <summary>
+        /// Injected Configuration (AppSettings + Envs + Common)
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ApplicationSettings _applicationSettings;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
-            services.AddControllers();
-            services.AddSwaggerGen();
+            Configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
+            _applicationSettings = Configuration.GetAndValidate<ApplicationSettings>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
+        public void ConfigureServices(IServiceCollection services)
+        {            
+            services.AddShared(_webHostEnvironment, _applicationSettings);    
+
+            services.AddInfrastructure(_applicationSettings);
+
+            services.AddApplication();
+        }
+
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="applicationBuilder"></param>
+        /// <param name="apiVersionDescriptionProvider"></param>
+        public void Configure(IApplicationBuilder applicationBuilder, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            app.UseSwagger();
+            if (_webHostEnvironment.IsDevelopment())
+                applicationBuilder.UseDeveloperExceptionPage();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
-            app.UseRouting();
+            applicationBuilder.UseRouting();
 
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+            applicationBuilder.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            applicationBuilder.UseShared(_webHostEnvironment, apiVersionDescriptionProvider);
         }
     }
 }
